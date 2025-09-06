@@ -1,4 +1,4 @@
-baseURL = 'https://gray-bay-0e9ee2e00.1.azurestaticapps.net/center/it/new/'
+baseURL = 'https://gray-bay-0e9ee2e00.1.azurestaticapps.net/center/it/'
 languageCode = 'ja-jp'
 title = '鳴門教育大学 情報基盤センター'
 theme = ["ananke"]
