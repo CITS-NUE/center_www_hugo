@@ -6,7 +6,8 @@ toc: true
 ---
 ## お問い合わせ方法
 以下のフォームよりお問い合わせください。  
-[お問い合わせフォーム](https://forms.office.com/r/UtE23YGurr)
+[お問い合わせフォーム](https://forms.office.com/r/UtE23YGurr)  
+[よくある質問（FAQ）](https://www.naruto-u.ac.jp/center/it/knowledge/open.knowledge/list)もご確認ください。
 ## お問い合わせいただく前に
 
 ### 情報基盤センターでは下記の各部屋を管理しています。
