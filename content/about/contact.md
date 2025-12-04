@@ -4,9 +4,10 @@ weight: 80
 summary: センターへのお問い合わせ
 toc: true
 ---
-
+## お問い合わせ方法
+以下のフォームよりお問い合わせください。  
+[お問い合わせフォーム](https://forms.office.com/r/UtE23YGurr)
 ## お問い合わせいただく前に
-「[よくある質問(FAQ)](https://www.naruto-u.ac.jp/center/it/knowledge/#)」の掲載もご覧ください。
 
 ### 情報基盤センターでは下記の各部屋を管理しています。
 
@@ -32,13 +33,14 @@ Live Campus : 教務課へ
 ポータルサイト（教職員）： 企画総務課 情報チームへ  
 学生証の再発行： まず学生課へ
 
-## お問い合わせについて
-2025年4月より、スタッフ体制が変更されました。  
-情報基盤センター関連のお問合せ等は当面の間、本部棟2階の「広報・デジタル推進室」  
-内線6167・6168までお願いします。  
-受付時間： 9:00-12:00, 13:00-17:00  
+## 　ICTサポート対応について
+対応場所：情報基盤センター1階事務室  
+開始日：令和７年１２月１日（月）  
+時間：９：００～１７：００（１２：００～１３：００を除く）  
+※お急ぎの場合やフォームを表示できない場合は（内線：6167）までご連絡ください。
 
-## For Intetnational Students / Faculty
-The staff structure has been changed as of April 2025.  
-For the time being, please contact the Public Relations and Digital Promotion Office on the 2nd floor of the Administration Building at extension 6167 or 6168 for any inquiries.  
-Open hours: 9:00-12:00, 13:00-17:00  
+## ICT Support Service
+Location: Information Infrastructure Center, 1st Floor Office  
+Start Date: Monday, December 1, 2025  
+Hours: 9:00 AM – 5:00 PM (excluding 12:00 PM – 1:00 PM)  
+If urgent or if you cannot access the form, please contact us at extension 6167.
