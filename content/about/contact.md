@@ -4,44 +4,49 @@ weight: 80
 summary: センターへのお問い合わせ
 toc: true
 ---
+
 ## お問い合わせ方法
-以下のフォームよりお問い合わせください。  
-[お問い合わせフォーム](https://forms.office.com/r/UtE23YGurr)  
+以下のフォームよりお問い合わせください。
+- [お問い合わせフォーム](https://forms.office.com/r/UtE23YGurr)
+
 [よくある質問（FAQ）](https://www.naruto-u.ac.jp/center/it/knowledge/open.knowledge/list)もご確認ください。
+
 ## お問い合わせいただく前に
 
-### 情報基盤センターでは下記の各部屋を管理しています。
+### 情報基盤センターの管理する端末室
 
-* 講義棟　2F　教育用端末室  
-* 講義棟　3F　マルチメディア教室  
-* 各棟　特殊端末室  
+* 講義棟　2F　教育用端末室
+* 講義棟　3F　マルチメディア教室
+* 各棟　特殊端末室
 
-### 上記端末室での不具合について  
+#### 上記端末室での不具合について
 
 上記各端末室に設置してあるプリンタで、紙詰まり，用紙切れ，トナー切れ、あるいは、室内のプロジェクターなどの機器について
 
 不具合等、不明な場合、情報基盤センターへご連絡下さい。（端末室の場所もお知らせ下さい。）  
-図書館の場合，図書館の職員にご連絡下さい。  
+図書館の場合，図書館の職員にご連絡下さい。
 
-その他の講義室については **教務課へ** お問い合わせ下さい。  
+その他の講義室については **教務課へ** お問い合わせ下さい。
 
 ### 端末室での忘れ物
 発見次第，学生課に届けてあります。  
-忘れた直後であれば対応可能ですが，学生証で本人確認させていただく場合がございます。  
+忘れた直後であれば対応可能ですが，学生証で本人確認させていただく場合がございます。
 
 ### 学内の管理外システム
-Live Campus : 教務課へ  
-ポータルサイト（教職員）： 企画総務課 情報チームへ  
-学生証の再発行： まず学生課へ
+- Live Campus : 教務課へ
+- ポータルサイト（教職員）： 企画総務課 情報チームへ
+- 学生証の再発行： まず学生課へ
 
-## 　ICTサポート対応について
-対応場所：情報基盤センター1階事務室  
-開始日：令和７年１２月１日（月）  
-時間：９：００～１７：００（１２：００～１３：００を除く）  
+## ICT サポート対応について
+- 対応場所：情報基盤センター1階事務室
+- 開始日：令和７年１２月１日（月）
+- 時間：９：００～１７：００（１２：００～１３：００を除く）
+
 ※お急ぎの場合やフォームを表示できない場合は（内線：6167）までご連絡ください。
 
 ## ICT Support Service
-Location: Information Infrastructure Center, 1st Floor Office  
-Start Date: Monday, December 1, 2025  
-Hours: 9:00 AM – 5:00 PM (excluding 12:00 PM – 1:00 PM)  
-If urgent or if you cannot access the form, please contact us at extension 6167.
+- Location: Information Infrastructure Center, 1st Floor Office
+- Start Date: Monday, December 1, 2025
+- Hours: 9:00 AM – 5:00 PM (excluding 12:00 PM – 1:00 PM)
+
+\* If urgent or if you cannot access the form, please contact us at extension 6167.
