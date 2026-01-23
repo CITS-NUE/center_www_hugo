@@ -1,6 +1,6 @@
 ---
-title: 情報基盤センターが運用するサービスに関するアンケートへの回答　令和6年度
-date: 2024-12-24
+title: 情報基盤センターが運用するサービスに関するアンケートへの回答　令和7年度
+date: 2026-01-23
 heading: notice
 ---
 
@@ -8,7 +8,7 @@ heading: notice
 
 お伺いしたご意見について、回答させていただきました。
 
-- [R6 情報基盤センターアンケートへの全体回答](./R6.AnsweringtheQuestionnaire_to_CITS.pdf)
+- [R7 情報基盤センターアンケートへの全体回答](./R7AnsweringyheQuestionnaire_to_CITS.pdf)
 
 なお、いただいたご質問・ご意見のうち、類似の内容に関しては集約して掲載しております。
 
