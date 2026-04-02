@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>応答時間測定</title>
+  <style>
+    body { font-family: sans-serif; margin: 20px; }
+    h1, h2 { color: #333; }
+    ul { padding-left: 20px; }
+    pre { background: #f4f4f4; padding: 10px; border: 1px solid #ccc; }
+    button { margin-top: 10px; padding: 5px 10px; }
+  </style>
+</head>
+<body>
+  <h1>INDIGOの設定確認</h1>
+  <p>
+  このページは，学内WiFiのINDIGOが適切に設定されているかを確認するための情報を表示します．<br>
+  外部のページにアクセスできない場合など，まずこのページで設定が適切かを確認してください．
+  </p>
+  <p id="timestamp">測定時刻: </p>
+  <ul id="results"></ul>
+
+  <h2>接続環境</h2>
+  <pre id="env">取得中...</pre>
+  <h2>ブラウザ情報</h2>
+  <pre id="platform"></pre>
+
+  <button onclick="copyResults()">結果をクリップボードにコピー</button>
+
+  <script>
+    const sites = [
+      { name: "Google", url: "https://www.google.co.jp/favicon.ico" },
+      { name: "Naruto Univ. Education", url: "https://www.naruto-u.ac.jp/favicon.ico" },
+      { name: "Naruto Univ. Education(internal)", url: "http://nueweb.naruto-u.ac.jp/favicon.ico" }
+    ];
+
+    const proxies = [
+      "160.204.66.33",
+      "160.204.66.34",
+      "160.204.66.35"
+    ];
+
+    let resultText = "";
+
+    function measureSite(site) {
+      const startTime = performance.now();
+      const img = new Image();
+
+      img.onload = function() {
+        const endTime = performance.now();
+        const duration = Math.round(endTime - startTime);
+        const text = `${site.name}: ${duration} ms`;
+        displayResult(text);
+        resultText += text + "\n";
+      };
+
+      img.onerror = function() {
+        const text = `${site.name}: 接続失敗`;
+        displayResult(text);
+        resultText += text + "\n";
+      };
+
+      img.src = site.url + "?" + new Date().getTime();
+    }
+
+    function displayResult(text) {
+      const li = document.createElement("li");
+      li.textContent = text;
+      document.getElementById("results").appendChild(li);
+    }
+
+    function fetchEnvInfo() {
+      fetch("https://api.ipify.org/?format=json")
+        .then(response => response.json())
+        .then(data => {
+          // const envText = JSON.stringify(data., null, 2);
+          const IP = data.ip;
+          if ( proxies.includes(IP)) {
+             envText = "Your Proxy:"+IP
+          } else {
+             envText = "ご利用のブラウザは大学のProxyサーバを利用していません．学内からこのページを開いている場合，大学のLANではなく，キャリアの回線でインターネットに接続していませんか?"
+          }
+          document.getElementById("env").textContent = envText;
+          resultText += "\n接続情報:\n" + envText;
+        })
+        .catch(error => {
+          const errorText = "接続情報の取得に失敗しました．大学LANを使うにはProxyサーバの設定をしてください．";
+          document.getElementById("env").textContent = errorText;
+          resultText += "\n" + errorText + "\n";
+        });
+    }
+
+    function getPlatform() {
+      const platform = navigator.platform;
+      const useragent= navigator.userAgent;
+      const hardwareconcurrency = navigator.hardwareConcurrency;
+      const devicememory = navigator.deviceMemory;
+      document.getElementById("platform").textContent = "platform: " + platform + "\n" + "userAgent: " + useragent + "\n";
+      document.getElementById("platform").textContent += "CPU core: " + hardwareconcurrency + "\n" + "Memory: " + devicememory;
+      resultText += "\n動作環境:\n" + "platform: " + platform + "\n";
+      resultText += "userAgent: " + useragent + "\n";
+      resultText += "CPU core: " + hardwareconcurrency + "\n";
+      resultText += "Memory: " + devicememory + "\n";
+    }
+
+    function copyResults() {
+      navigator.clipboard.writeText(resultText)
+        .then(() => alert("結果をクリップボードにコピーしました。"))
+        .catch(() => alert("コピーに失敗しました。"));
+    }
+
+    window.onload = function() {
+      const now = new Date();
+      const timestamp = now.toLocaleString();
+      document.getElementById("timestamp").textContent = "測定時刻: " + timestamp;
+      resultText += "測定時刻: " + timestamp + "\n\n";
+      sites.forEach(measureSite);
+      fetchEnvInfo();
+      getPlatform();
+    };
+  </script>
+</body>
+</html>
