@@ -1,40 +1,25 @@
 ---
-title: Microsoft 365 多要素認証
+title: Microsoft 365 多要素認証（MFA）
 toc: true
 weight: 25
 ---
-(For foreign students, please refer to the [English version]({{< ref "20220817" >}}) of the manual.)
+## 設定方法
+Microsoft 365 のセキュリティを強化するため，不正ログイン対策として，学外からログインする場合に多要素認証を適用しています。 
 
-## Microsoft 365 多要素認証（MFA）の設定
-Microsoft365のセキュリティを強化するため，不正ログイン対策として，学外からログインする場合に多要素認証を適用します。
-次のマニュアルを参照し，いずれかの方法で初期設定をお願いします。
-##### Microsoft365 多要素認証の導入について（初期設定マニュアル）
-次のマニュアルを参照し，いずれかの方法で初期設定をお願いします。  
-学外からログインする場合，初期設定を行った認証方法（スマートフォン・電話・パソコン）での承認が必要となりますので，ご注意ください。（例：学外から大学のOutlookやTeamsを使用する場合）
+次のマニュアルを参照し，初期設定をお願いします。  
+ [多要素認証設定マニュアル](MS_mfa2026.pdf)
 
-1. [多要素認証マニュアル アプリ(PC・モバイル)](PCmobile_2023mfa.pdf)【推奨1】
-2. [多要素認証マニュアル アプリ(電話認証)](Tel_2023mfa.pdf)（固定電話／携帯電話）【推奨2】  
-3. [多要素認証マニュアル アプリ(パソコン認証)](PC_2023mfa.pdf)  
-- 【推奨1】･【推奨2】どちらも登録お願いします。
-> 注意事項  
-> Windows PCをお使いの場合，Edge以外のブラウザでは正常に設定作業が行えない場合があります。
+### 注意  
+- アプリでの認証と電話番号等の認証要素の2種類の登録をお勧めしています。  
+- 携帯電話を使用した場合には，機種変更時の再設定をお願いします。  
 
-1. QRコードをスキャンする場合，スマートフォン付属のQRコードリーダーは使用いたしません。
-2. スマートフォンは学内無線LAN（INDIGO）ではなく，携帯電話回線に接続して設定を行って下さい。
-3. 大学の電話番号を登録しないようにしてください。携帯電話を推奨いたします。
-4. 大学のパソコンで登録した場合，ノートパソコンなど他のパソコンを使用する場合は追加登録が必要となります。  
-Mac OS Xの場合，ChromeブラウザとChrome用拡張機能  [Authenticator](https://authenticator.cc/) を使用します。
+## Setup
+To enhance the security of Microsoft 365 and prevent unauthorized access, multi-factor authentication (MFA) is required when logging in from outside the campus.
 
-##### 設定の確認および認証方法の追加手順
-1. [portal.office.com](https://portal.office.com)よりMicrosoft365にログインします。
-2. ホーム画面の右上の人型アイコンより　「アカウントを表示」を選びます。
-3. 「セキュリティ情報」＞更新情報　で現在のサインイン方法が表示され、変更・削除が可能です（例：電話番号の変更）
-4. サインイン方法の追加　よりサインイン方法の追加が可能です（例：代替電話の登録，予備のスマートフォンの登録）
+Please refer to the following manual and complete the initial setup.  
+[MFA Setup Manual]() ← {{< unsafe >}}<span style="color: red;">Under Construction</span>{{< /unsafe >}}
 
-> メールソフトで，IMAPプロトコルを設定している場合は，多要素認証が適用された後に接続できなくなります。  
-> Microsoft365の多要素認証は，IMAPなど基本認証に対応しておりません。また，Microsoft社は 2022年10月1日に基本認証を終了するとの発表をしています。  
-> Exchangeプロトコル，または OAuth2.0認証 での利用をお願いいたします。  
-[メールソフトの設定](/services/mail)
+### Notes  
+- We recommend registering two types of authentication methods: app-based authentication and another authentication factor such as a phone number.  
+- If you use a mobile phone for authentication, please reconfigure the settings when you change your device.  
 
-> メールソフトで，アプリケーションパスワードを設定している場合も，多要素認証への移行となります。  
-> 上記のとおり，Exchangeプロトコル，または OAuth2.0認証 での利用をお願いいたします。  
