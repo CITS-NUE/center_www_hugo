@@ -2,6 +2,7 @@
 title:  用語集 (Words) 
 weight: 999
 toc: true
+summary: 　　　
 ---
 
 ## あ
