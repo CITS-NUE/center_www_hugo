@@ -2,6 +2,7 @@
 title: 電子メールシステム
 toc: true
 weight: 30
+summary: 在学中，Microsoft 365 Outlook メールを利用できます。
 ---
 ### アカウント（ユーザ名）／パスワードとメールアドレス
 #### アカウント（ユーザ名）
