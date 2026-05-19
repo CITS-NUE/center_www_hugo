@@ -94,6 +94,6 @@ Windows および MacOS へインストールできます。
  
 ## 端末室で利用できるソフトウェア
  端末室のPCへイントールしているソフトウェアです。  
-[端末室導入 ソフトウェア一覧](../pdfs/pcroom-software.pdf)
+[端末室導入 ソフトウェア一覧](../../pdfs/pcroom-software.pdf)
  
 
