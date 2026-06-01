@@ -57,8 +57,12 @@
               </small></div>
               <div><small>
               {{/*  if pages has length of two  */}}
-              {{ if eq (len .pages) 2 }}pp. {{ index .pages 0 }}-{{ index .pages 1 }}
-              {{ else }}p. {{ index .pages 0 }}{{ end }}
+              {{ with .pages }}
+                {{ if eq (len .) 2 }}
+                  pp. {{ index . 0 }}-{{ index . 1 }}
+                {{ else }}p. {{ index .pages 0 }}
+                {{ end }}
+              {{ end }}
             </small></div></td>
           </tr>
         {{ end }}
