@@ -388,8 +388,16 @@ nav a.f3 {
 
 .page-body {
     font-size: 1.125rem;
-    /* 1 行が長くなりすぎないよう上限を設ける（約 40 字） */
-    max-width: 40em;
+}
+
+/* 1 行が長くなりすぎないよう上限を設ける（約 40 字）．
+   コンテナ自体を狭めると，article が justify-between のフレックスのため
+   余った幅の分だけ本文が右へ押され，ページ見出し（h1）と左端がずれる．
+   そのため上限は中の各ブロックとページ見出しに掛ける．
+   見出しは em が自身の字送り基準になってしまうので rem で指定する． */
+.page-body > *,
+main article header h1 {
+    max-width: 45rem;
 }
 
 /* テーマ側の .nested-copy-line-height p{line-height:1.5} と

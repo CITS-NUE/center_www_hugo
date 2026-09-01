@@ -7,7 +7,7 @@
   {{ $section := .Site.GetPage "section" .Section }}
   <article class="flex-l flex-wrap justify-between mw9 center ph3">
     <div class="w-20-l mt4"></div>
-    <header class="mt4 {{ if .Params.toc }}w-50-l{{ else }}w-70-l{{ end }}">
+    <header class="mt4 {{ if .Params.toc }}w-50-l{{ else }}w-75-l{{ end }}">
       {{- partialCached "social/share.html" . . -}}
       <h1 class="f1 mt3 mb1">
         {{- .Title -}}
@@ -51,7 +51,7 @@
     </aside>
     </div>
 
-    <div class="page-body nested-copy-line-height lh-copy {{ $.Param "post_content_classes"  | default "serif"}} f4 nested-links {{ $.Param "text_color" | default "mid-gray" }} {{ cond (eq $.Site.Language.LanguageDirection "rtl") "pl4-l" "pr4-l" }} {{ if .Params.toc }}w-50-l{{ else }}w-70-l{{ end }}">
+    <div class="page-body nested-copy-line-height lh-copy {{ $.Param "post_content_classes"  | default "serif"}} f4 nested-links {{ $.Param "text_color" | default "mid-gray" }} {{ cond (eq $.Site.Language.LanguageDirection "rtl") "pl4-l" "pr4-l" }} {{ if .Params.toc }}w-50-l{{ else }}w-75-l{{ end }}">
       {{- .Content -}}
       {{- partial "tags.html" . -}}
       <div class="mt6 instapaper_ignoref">
