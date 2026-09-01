@@ -10,7 +10,7 @@ hot_topic_href_text: "こちらからご確認ください。"
 
 {{< pdfembed src="./R6_04_情報基盤センターから新入生へのお知らせ.pdf#view=fit" width="450" height="700" >}}
 
-### 新入生向け利用マニュアル User Manual for New Students
+## 新入生向け利用マニュアル User Manual for New Students
 新入生の皆様は，本学情報環境を利用するにあたり，下記マニュアルをご一読ください。  
 New students are requested to read the following manuals when using the university's information environment.
 
@@ -18,7 +18,7 @@ New students are requested to read the following manuals when using the universi
   [Use of the Information Environment at the University](InformationenvironmentatUniversity.pdf)
 
 - [購入したパソコンの設定について](購入したパソコンの設定について(R5.10～).pdf)  
-  [About the settings of the purchased computer](SettingofanewlypurchasedPC.pdf)  
+  [About the settings of the purchased computer](SettingofanewlypurchasedPC.pdf)
 
 - [Microsoft365 多要素認証の設定について]({{< ref "mfa" >}})  
   [About setting up Microsoft365 multi-factor authentication]({{< ref "20220817" >}})

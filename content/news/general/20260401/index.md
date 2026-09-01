@@ -10,7 +10,7 @@ hot_topic_href_text: "こちらからご確認ください。"
 
 {{< pdfembed src="./R8_新入生へのお知らせ.pdf#view=fit" width="450" height="700" >}}
 
-### 新入生向け利用手順
+## 新入生向け利用手順
 [View in English](#user-procedures-for-new-students)
 
 新入生の皆様は，本学情報環境を利用するにあたり，下記リンクより Moodle にお入りください。
@@ -29,7 +29,7 @@ hot_topic_href_text: "こちらからご確認ください。"
 
 ---
 
-### User Procedures for New Students
+## User Procedures for New Students
 [日本語版を見る](#新入生向け利用手順)
 
 New students are requested to enter Moodle from the link below in order to use the University's information environment.

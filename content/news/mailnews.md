@@ -5,10 +5,10 @@ weight: 30
 ---
 不定期ですが，お薦め情報などをメールでお知らせしています。
 
-### 最新号のお知らせ
+## 最新号のお知らせ
 [Center Mail News 2021年度 No.1 (20210701)](./mailnews/mail_news21-01.txt)
 
-### バックナンバー
+## バックナンバー
 - [Center Mail News 2020年度 No.1 (20210315)](./mailnews/mail_news20-01.txt)
 - [Center Mail News 2019年度 No.2 (20200311)](./mailnews/mail_news19-02.txt)
 - [Center Mail News 2019年度 No.1 (20190510)](./mailnews/mail_news19-01.txt)

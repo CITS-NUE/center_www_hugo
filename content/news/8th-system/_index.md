@@ -9,7 +9,7 @@ weight: 1
 
 ![©ぴよたそ](https://www.naruto-u.ac.jp/center/it/img/8thbee.jpg)
 
-### 作業予定
+## 作業予定
 次のとおり作業を行いますので，ご理解・ご協力をお願いいたします。
 
 | 月日 | 時間 | 内容 | 補足 |
