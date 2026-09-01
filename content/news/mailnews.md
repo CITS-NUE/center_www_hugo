@@ -3,9 +3,11 @@ title: 過去のメールニュース
 toc: true
 weight: 30
 ---
- 不定期ですが，お薦め情報などをメールでお知らせしています。  
+不定期ですが，お薦め情報などをメールでお知らせしています。
+
 ### 最新号のお知らせ
- [Center Mail News 2021年度 No.1 (20210701)](./mailnews/mail_news21-01.txt)
+[Center Mail News 2021年度 No.1 (20210701)](./mailnews/mail_news21-01.txt)
+
 ### バックナンバー
 - [Center Mail News 2020年度 No.1 (20210315)](./mailnews/mail_news20-01.txt)
 - [Center Mail News 2019年度 No.2 (20200311)](./mailnews/mail_news19-02.txt)
@@ -29,4 +31,3 @@ weight: 30
 - [Center Mail News No.1（20141107）](./mailnews/mail_news01.txt)
 - [Center News No.2（20101002）](./mailnews/news02.txt)
 - [Center News No.1（20100528）](./mailnews/news01.txt)
-
