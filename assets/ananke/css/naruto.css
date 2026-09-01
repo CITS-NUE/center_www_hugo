@@ -17,7 +17,10 @@ p > code, li > code {
     top: 4rem;
     right: 0;
     z-index: 2;
-    height: calc(100vh - 7rem);
+    /* height だと，項目の少ないページでも左パネルが画面の高さ分を占め，
+       講演会・セミナー（2 ページ）のように本文が短いページで
+       下に画面 1 つ分の空白ができていた．上限だけを決める． */
+    max-height: calc(100vh - 7rem);
     overflow-y: auto
 }
 
@@ -625,4 +628,578 @@ main article header time.f6 {
         overflow-x: auto;
         border-spacing: 6pt 3pt;
     }
+}
+
+/* ==================================================================
+   トップページ
+
+   以前は，注目の話題・新着情報・問い合わせ・外部リンクを
+   それぞれ独立した article として積み，最後の article は
+   本文が空のまま 70% の枠を確保していたため，
+   1280px 幅で見ると縦 2193px のうち下 500px ほどが空白で，
+   外部リンクだけが右に浮いていた．
+
+   ここでは器を 1 つ（.home-wrap，68rem）に揃え，空いていたところに
+   各サービスページの summary から一覧を組み立てる．
+   色は既存のブランド色（#0059b3・#10243d）にそろえた．
+   ================================================================== */
+
+/* 色の基準．カード（.card-tile）は一覧ページでも使うため :root に置く．
+   .home に閉じていたときは，トップページ以外で var() が解決できず，
+   題名も枠線もリンクの青のままになっていた． */
+:root {
+    --nue-brand: #0059b3;
+    --nue-deep: #10243d;
+    --nue-ink: #3c4f63;
+    --nue-muted: #6b7785;
+    --nue-line: #e2e8f0;
+}
+
+/* テーマ既定の main は下に pb7（16rem＝256px）の余白を持つ．
+   項目の少ない一覧ページ（講演会・セミナーなど）では画面 1 つ分近い空白になり，
+   フッタが遠のいて「まだ続きがある」ように見えていた．全ページで 4rem に詰める． */
+main.pb7 {
+    padding-bottom: 4rem;
+}
+
+.home-wrap {
+    max-width: 68rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+}
+
+.home-section {
+    margin-top: 3.5rem;
+}
+
+/* ヒーロー直下の 1 つ目だけは，写真との間隔を少し詰める */
+.home-section--lead {
+    margin-top: 2.5rem;
+}
+
+.home > .home-section:first-child {
+    margin-top: 2.5rem;
+}
+
+/* ------------------------------------------------------------------
+   ヒーロー（写真の見出し）
+   ------------------------------------------------------------------ */
+
+.home-hero {
+    background-color: var(--nue-deep);
+    background-position: center 45%;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+/* 一様な黒 60% を敷くと，写真も文字も等しく濁る．
+   文字が乗る上下だけを暗くして，中央の写真は残す． */
+.home-hero__scrim {
+    background-image: linear-gradient(
+        to bottom,
+        rgba(5, 17, 31, 0.82) 0,
+        rgba(5, 17, 31, 0.40) 42%,
+        rgba(5, 17, 31, 0.78) 100%);
+}
+
+.home-hero--plain .home-hero__scrim {
+    background-image: none;
+    background-color: var(--nue-brand);
+}
+
+.home-hero__inner {
+    max-width: 68rem;
+    margin: 0 auto;
+    padding: 4rem 1.25rem 4.75rem;
+    text-align: center;
+}
+
+.home-hero__title {
+    margin: 0;
+    color: #fff;
+    /* 画面幅に追随させる．48px 固定では 390px 幅で 2 行に折れていた */
+    font-size: clamp(2.1rem, 5vw, 3.5rem);
+    font-weight: 400;
+    line-height: 1.25;
+    letter-spacing: 0.08em;
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.45);
+}
+
+.home-hero__rule {
+    width: 68px;
+    height: 3px;
+    margin: 1.5rem auto 1.2rem;
+    border: 0;
+    border-radius: 2px;
+    /* ヘッダ・フッタの帯（青地に緑の差し色）と同じ組み合わせ */
+    background-image: linear-gradient(90deg, #0079f3, #2fa36b);
+}
+
+.home-hero__lead {
+    max-width: 42rem;
+    margin: 0 auto;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+    line-height: 1.75;
+    letter-spacing: 0.04em;
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
+}
+
+@media screen and (max-width: 30em) {
+    .home-hero__inner {
+        padding: 2.5rem 1rem 3rem;
+    }
+}
+
+/* ------------------------------------------------------------------
+   節の見出しと共通の面
+   ------------------------------------------------------------------ */
+
+/* 本文の h2 と同じ言い回し（青の縦棒＋下の細罫）にそろえ，
+   右端に一覧へのリンクを置く．トップページと最新情報の両方で使う． */
+.section-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem 1rem;
+    margin-bottom: 1.15rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--nue-line);
+}
+
+.section-head__title {
+    margin: 0;
+    padding-left: 0.55em;
+    border-left: 6px solid var(--nue-brand);
+    color: var(--nue-deep);
+    font-size: 1.375rem;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.section-head__title a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.section-head__title a:hover {
+    text-decoration: underline;
+}
+
+.section-head__more {
+    color: var(--nue-brand);
+    font-size: 0.9rem;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.section-head__more::after {
+    content: " ›";
+}
+
+.section-head__more:hover {
+    color: var(--nue-deep);
+    text-decoration: underline;
+}
+
+.home-lead {
+    max-width: 45rem;
+    margin: -0.2rem 0 1.25rem;
+    color: var(--nue-ink);
+    font-size: 0.95rem;
+    line-height: 1.8;
+}
+
+.home-lead p {
+    margin: 0;
+}
+
+.card-panel {
+    background-color: #fff;
+    border: 1px solid var(--nue-line);
+    border-radius: 8px;
+    box-shadow: 0 1px 2px rgba(16, 36, 61, 0.05);
+}
+
+.card-panel--body {
+    padding: 1.5rem 1.6rem;
+}
+
+/* ------------------------------------------------------------------
+   注目の話題
+   ------------------------------------------------------------------ */
+
+.home-notice {
+    background-color: #fff;
+    border: 1px solid #e8dcdc;
+    border-left: 6px solid #c8102e;
+    border-radius: 8px;
+    padding: 1.4rem 1.6rem 1.5rem;
+    box-shadow: 0 1px 2px rgba(16, 36, 61, 0.05);
+}
+
+.home-notice + .home-notice {
+    margin-top: 1rem;
+}
+
+.home-notice__title {
+    margin: 0;
+    color: #a50f26;
+    font-size: 1.3rem;
+    font-weight: 700;
+    line-height: 1.45;
+}
+
+.home-notice__text {
+    margin: 0.55rem 0 0;
+    color: var(--nue-ink);
+    font-size: 1rem;
+    line-height: 1.8;
+}
+
+.home-notice__action {
+    margin: 1.1rem 0 0;
+}
+
+/* 既存の .forDetail と同じ色づかいの，一回り大きいボタン */
+.home-btn {
+    display: inline-block;
+    padding: 0.6em 1.5em;
+    border-radius: 999px;
+    background-color: var(--nue-brand);
+    color: #fff;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    text-decoration: none;
+    transition: background-color 0.15s ease;
+}
+
+.home-btn:hover,
+.home-btn:focus-visible {
+    background-color: #0079f3;
+    color: #fff;
+}
+
+/* ------------------------------------------------------------------
+   新着情報
+
+   以前は table で，日付・区分・題名が border-spacing だけで
+   区切られており，行の境目が分からなかった．
+   1 行全体をリンクにして，罫線と hover で行を追えるようにする．
+   ------------------------------------------------------------------ */
+
+.news-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.news-list__item + .news-list__item {
+    border-top: 1px solid #eef1f5;
+}
+
+.news-list__link {
+    display: grid;
+    grid-template-columns: 6.2rem 5.4rem 1fr;
+    align-items: baseline;
+    gap: 0 1rem;
+    padding: 0.85rem 1.25rem;
+    color: var(--nue-deep);
+    text-decoration: none;
+}
+
+.news-list__link:hover,
+.news-list__link:focus-visible {
+    background-color: #f4f8fc;
+}
+
+.news-list__date {
+    color: var(--nue-muted);
+    font-size: 0.85rem;
+    /* 桁を揃えて日付を縦に読めるようにする */
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
+}
+
+.news-list__title {
+    font-size: 0.98rem;
+    line-height: 1.6;
+}
+
+.news-list__link:hover .news-list__title {
+    text-decoration: underline;
+}
+
+/* 区分の札．色の対応（.hd-important など）は一覧ページと共用し，
+   トップページでは寸法だけを丸い札に上書きする．
+   .hd-* は td 向けに width:60pt を持つため，後ろで打ち消す． */
+.hd-badge {
+    display: block;          /* グリッド項目なので列幅いっぱいに伸びる */
+    width: auto;             /* .hd-* の width:60pt（td 向け）を打ち消す */
+    padding: 0.2em 0.6em;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    line-height: 1.5;
+    text-align: center;
+}
+
+/* 純色の赤に白文字はコントラストが 4.0:1 で AA（4.5:1）に届かない．
+   注目の話題の縁と同じ濃さ（5.9:1）にそろえる．
+   一覧ページの表はこの札を使っていないため，そちらの見た目は変わらない． */
+.hd-badge.hd-important {
+    background-color: #c8102e;
+}
+
+/* ------------------------------------------------------------------
+   カード一覧
+
+   トップページの各種サービスと，各セクションの一覧ページ
+   （センター紹介・各種サービス・講演会など）で共用する．
+   ------------------------------------------------------------------ */
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(16.5rem, 1fr));
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.card-tile {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 1.05rem 1.15rem 1.2rem;
+    background-color: #fff;
+    border: 1px solid var(--nue-line);
+    border-top: 3px solid var(--nue-brand);
+    border-radius: 8px;
+    box-shadow: 0 1px 2px rgba(16, 36, 61, 0.05);
+    text-decoration: none;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.card-tile:hover,
+.card-tile:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(16, 36, 61, 0.13);
+}
+
+.card-tile__title {
+    color: var(--nue-deep);
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+.card-tile__title::after {
+    content: " →";
+    color: var(--nue-brand);
+}
+
+.card-tile__text {
+    margin-top: 0.5rem;
+    color: var(--nue-ink);
+    font-size: 0.88rem;
+    line-height: 1.75;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .card-tile { transition: none; }
+    .card-tile:hover { transform: none; }
+}
+
+/* ------------------------------------------------------------------
+   お問い合わせ・外部リンク
+   ------------------------------------------------------------------ */
+
+.home-section--foot {
+    margin-top: 3.5rem;
+}
+
+.home-contact {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7em;
+    padding: 1.3rem 1.5rem;
+    border-radius: 10px;
+    background-image: linear-gradient(135deg, #0059b3 0%, #10243d 100%);
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 700;
+    line-height: 1.5;
+    text-align: center;
+    text-decoration: none;
+    transition: filter 0.15s ease;
+}
+
+.home-contact:hover,
+.home-contact:focus-visible {
+    color: #fff;
+    filter: brightness(1.15);
+}
+
+.home-contact__arrow {
+    transition: transform 0.15s ease;
+}
+
+.home-contact:hover .home-contact__arrow {
+    transform: translateX(4px);
+}
+
+.home-links {
+    margin-top: 2.5rem;
+}
+
+.home-links__title {
+    margin: 0 0 0.9rem;
+    color: var(--nue-deep);
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
+.home-links__grid {
+    display: grid;
+    /* 6 項目なので，広い画面では 3 列 2 行にきれいに収まる幅にする */
+    grid-template-columns: repeat(auto-fill, minmax(17.5rem, 1fr));
+    gap: 0.6rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* 題名が 2 行になる項目があるため，同じ行の高さをそろえる */
+.home-links__grid li {
+    display: flex;
+}
+
+.home-links__grid a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6em;
+    /* li の中で幅いっぱいに伸ばす（既定の flex-grow:0 だと文字幅に縮む） */
+    flex: 1;
+    height: 100%;
+    padding: 0.8em 1em;
+    background-color: #fff;
+    border: 1px solid var(--nue-line);
+    border-radius: 6px;
+    color: var(--nue-brand);
+    font-size: 0.92rem;
+    line-height: 1.5;
+    text-decoration: none;
+}
+
+.home-links__grid a:hover,
+.home-links__grid a:focus-visible {
+    background-color: #eef4fb;
+    border-color: #b9d3ee;
+    color: var(--nue-deep);
+}
+
+.home-links__ext {
+    color: var(--nue-muted);
+    font-size: 0.8em;
+}
+
+/* ------------------------------------------------------------------
+   スマートフォン
+   ------------------------------------------------------------------ */
+
+@media screen and (max-width: 30em) {
+    .home-wrap {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+
+    .home-section,
+    .home-section--foot {
+        margin-top: 2.5rem;
+    }
+
+    .section-head__title {
+        font-size: 1.2rem;
+    }
+
+    /* 3 列だと題名が 1 行 8 字ほどになるため，日付と区分を上の行にまとめる */
+    .news-list__link {
+        grid-template-columns: auto 1fr;
+        gap: 0.35rem 0.7rem;
+        padding: 0.85rem 0.9rem;
+    }
+
+    .news-list__title {
+        grid-column: 1 / -1;
+    }
+
+    /* 幅の狭い画面では札を内容の幅に詰めて，題名の行を稼ぐ */
+    .hd-badge {
+        justify-self: start;
+    }
+
+    .home-notice {
+        padding: 1.15rem 1.1rem 1.25rem;
+    }
+
+    .home-notice__title {
+        font-size: 1.15rem;
+    }
+
+    .home-contact {
+        font-size: 1rem;
+        padding: 1.1rem 1rem;
+    }
+}
+
+/* ==================================================================
+   一覧ページ・記事ページの器
+
+   これまで本文の行長は .page-body > * の max-width: 45rem で抑えていたが，
+   器（mw8＝64rem）はそのままだったため，右カラムを持たないページでは
+   右にだけ 272px の余りが出て，記事全体が左に寄って見えていた．
+   ================================================================== */
+
+/* 左パネルも目次も持たないページ（お知らせの記事など）の器．
+   本文 45rem ＋ ph3 の左右 1rem．center（margin: auto）で中央に置く． */
+.article-measure {
+    max-width: 47rem;
+}
+
+/* 一覧ページの導入文．カードと左端をそろえ，行長だけ抑える． */
+.section-lead {
+    max-width: 45rem;
+    margin-bottom: 1.75rem;
+    color: var(--nue-ink);
+    font-size: 1.0625rem;
+    line-height: 1.85;
+}
+
+.section-lead > :first-child {
+    margin-top: 0;
+}
+
+.section-lead > :last-child {
+    margin-bottom: 0;
+}
+
+/* 一覧ページのカード列．li はグリッド項目なので，中のカードを高さいっぱいに伸ばす */
+.card-grid > li {
+    display: flex;
+}
+
+.card-grid > li > .card-tile {
+    flex: 1;
+}
+
+/* 最新情報のトップ．区分ごとの抜粋の間隔 */
+.news-section + .news-section {
+    margin-top: 2.75rem;
 }

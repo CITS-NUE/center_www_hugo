@@ -1,17 +1,21 @@
-<table><tbody>
-{{ range . }}
-    <tr class="relative w-100 mb4">
-    <td class="courier"><span>
-        {{ .Date | time.Format (default "2006/01/02" .Site.Params.date_format) }}
-    </span></td>
-    <td class="tc hd-{{ .Params.Heading }}">
-        {{ $i18nHeading := printf "%sHeading" .Params.Heading }}
-        <span> {{ i18n $i18nHeading }} </span>
-    </td>
-    <td>
-        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-    </td>
-    </tr>
-{{ end }}
-</tbody>
-</table>
+{{/* 新着情報の並び．トップページ・最新情報・各区分のページで共用する．
+
+     以前は table で，日付・区分・題名が border-spacing だけで隔てられており，
+     行の境目が分からず，リンクも題名の文字の上だけだった．
+     1 行全体をリンクにして，罫線と hover で行を追えるようにする． */}}
+<ul class="news-list">
+  {{ range . }}
+    <li class="news-list__item">
+      <a class="news-list__link" href="{{ .RelPermalink }}">
+        <time class="news-list__date"
+              {{ printf `datetime="%s"` (.Date.Format "2006-01-02") | safeHTMLAttr }}>
+          {{ .Date | time.Format (default "2006/01/02" .Site.Params.date_format) }}
+        </time>
+        <span class="hd-badge hd-{{ .Params.heading }}">
+          {{ i18n (printf "%sHeading" .Params.heading) }}
+        </span>
+        <span class="news-list__title">{{ .Title }}</span>
+      </a>
+    </li>
+  {{ end }}
+</ul>

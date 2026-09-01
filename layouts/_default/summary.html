@@ -1,15 +1,8 @@
-<div class="relative w-100 bg-white nested-copy-line-height">
-  <div class="bg-white mb3 pa4 pv2 gray overflow-hidden">
-    <h1 class="f3 near-black">
-      <a href="{{ .RelPermalink }}" class="link black dim">
-        {{ .Title }}
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height mb4">
-      {{ .Summary }}
-    </div>
-    <div class="forDetail">
-      <a href="{{ .RelPermalink }}" class="link"> {{ i18n "forDetail" }} </a>
-    </div>
-  </div>
-</div>
+{{/* 一覧ページのカード．トップページの各種サービスと同じ見た目にそろえる．
+     カード全体がリンクなので，以前の「詳しくはこちら」ボタンは題名の矢印に代えた． */}}
+<a class="card-tile" href="{{ .RelPermalink }}">
+  <span class="card-tile__title">{{ .Title }}</span>
+  {{ with .Summary | plainify | strings.TrimSpace }}
+    <span class="card-tile__text">{{ . | truncate 110 }}</span>
+  {{ end }}
+</a>

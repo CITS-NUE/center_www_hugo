@@ -1,0 +1,22 @@
+{{/* トップページ専用のヒーロー．
+
+     テーマ既定の site-header.html は写真の上に bg-black-60 の一様な面を敷くため，
+     写真も見出しも濁って見えていた．ここでは上下だけを暗くする階調にして，
+     ナビゲーションと見出しの可読性を保ちながら写真の中央部を残す．
+
+     下層ページのヘッダ（page-header.html）はそのままなので，
+     この見た目はトップページにのみ効く． */}}
+{{ $featured_image := partial "func/GetFeaturedImage.html" . }}
+<header class="home-hero{{ if not $featured_image }} home-hero--plain{{ end }}"
+        {{ with $featured_image }}{{ printf "style=\"background-image: url('%s');\"" . | safeHTMLAttr }}{{ end }}>
+  <div class="home-hero__scrim">
+    {{ partial "site-navigation.html" . }}
+    <div class="home-hero__inner">
+      <h1 class="home-hero__title">{{ .Title | default .Site.Title }}</h1>
+      {{ with .Params.description }}
+        <hr class="home-hero__rule">
+        <p class="home-hero__lead">{{ . }}</p>
+      {{ end }}
+    </div>
+  </div>
+</header>

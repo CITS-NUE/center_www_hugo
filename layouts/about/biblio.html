@@ -4,7 +4,9 @@
 
 {{ define "main" }}
   {{ $section := .Site.GetPage "section" .Section }}
-  <article class="flex-l flex-wrap justify-between m center ph3">
+  {{/* mw9 の打ち間違いで器に上限がなく，広い画面では
+       左パネルと本文が左右に離れていた */}}
+  <article class="flex-l flex-wrap justify-between mw9 center ph3">
     <div class="w-20-l mt4"></div>
     <header class="mt4 w-75-l">
       <aside class="instapaper_ignoref b helvetica tracked">
