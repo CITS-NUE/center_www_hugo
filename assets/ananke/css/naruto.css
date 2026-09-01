@@ -108,51 +108,73 @@ table {
     margin-top: 10px;
 }
 
+/* リンクが gray(#808080) で，地(#F4F4F4)とのコントラストが 3.59:1 と
+   WCAG AA の 4.5:1 を下回っていた．とくに現在ページは地が gainsboro に
+   変わるため 2.88:1 となり，一覧の中で最も読みにくいという逆転が
+   起きていた（本文は 6.78:1）．
+   あわせて，長さのまちまちな 11 項目が中央揃えで目で追いにくかったため
+   行頭を揃える． */
+
 .page-pannel li {
-    padding: 0px;
-    border-bottom: .5pt solid gray;
-    text-align: center;
+    padding: 0;
+    border-bottom: 1px solid #dfe4ea;
+    text-align: left;
 }
 
 .page-pannel li a {
     text-decoration-line: none;
-    color: gray;
+    /* 16px だと「学術認証フェデレーション」が枠(218px)に収まらず
+       末尾の 1 文字だけが次行に落ちるため，わずかに詰める */
+    font-size: 0.94rem;
+    color: #4a4a4a;                       /* 8.06:1 */
     display: block;
     width: 100%;
-    height: 100%;
-    margin: 0px;
-    padding-top: 8pt;
-    padding-bottom: 8pt;
+    margin: 0;
+    padding: 0.65em 0.7em;
+    /* 現在ページの目印と幅を合わせ，選択で行がずれないようにする */
+    border-left: 3px solid transparent;
 }
 
-.page-pannel li a:hover{
-    background-color: gainsboro;
-    color: gray;
+.page-pannel li a:hover {
+    background-color: #e8edf2;
+    color: #10243d;
 }
 
 .page-pannel .f5 {
     border-top: 1.2pt solid green;
-    border-bottom: .8pt solid gray;
-    padding-top: 15pt;
-    padding-bottom: 15pt;
+    border-bottom: 1px solid #cfd6de;
+    padding: 0.9em 0.7em;
     background-color: whitesmoke;
-    text-align: center;
+    text-align: left;
 }
 
+/* 現在ページ．地の色だけでは弱く，かつ文字が最も読みにくくなっていたので，
+   濃色・太字・左の線で明示する */
 .page-pannel [aria-current]:not([aria-current="false"]) {
     background-color: gainsboro;
+    color: #10243d;                       /* 11.41:1 */
+    font-weight: 700;
+    border-left-color: #0059b3;
 }
 
 #TableOfContents ul ul > li {
-    margin-left: 13px;
+    margin-left: 16px;
 }
 
 #TableOfContents ul ul {
     margin-top: 7px;
 }
 
+/* 既定のリンク色 #357EDD は地(#F4F4F4)とのコントラストが 3.69:1 で
+   AA を下回るため，サイトのブランド色に寄せて濃くする */
 #TableOfContents a {
     text-decoration: none;
+    color: #0059b3;                       /* 6.20:1 */
+}
+
+#TableOfContents a:hover {
+    color: #10243d;
+    text-decoration: underline;
 }
 
 @media screen and (max-width: 960px) {
