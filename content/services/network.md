@@ -56,7 +56,8 @@ summary: 学内における情報伝達のインフラを構成しています�
 - CA証明書：システム証明書を使用 (Use system certificates)
 
 > 一度設定すると，端末が認証情報を記憶しますので，次回からは入力する必要はありません。
-> When you set Authenticate and connect successfully, Afterwards, You may not enter your User ID and Password again.
+>
+> Once your device has authenticated successfully, it remembers your credentials, so you do not need to enter your user ID and password again.
 
 ### 留意事項
 - アプリケーションの一部は通信制限があります。
