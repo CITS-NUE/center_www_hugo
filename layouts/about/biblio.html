@@ -6,7 +6,7 @@
   {{ $section := .Site.GetPage "section" .Section }}
   <article class="flex-l flex-wrap justify-between m center ph3">
     <div class="w-20-l mt4"></div>
-    <header class="mt4 {{ if .Params.toc }}w-50-l{{ else }}w-75-l{{ end }}">
+    <header class="mt4 w-75-l">
       <aside class="instapaper_ignoref b helvetica tracked">
         {{ i18n "biblioHeading" }}
       </aside>
@@ -27,7 +27,7 @@
       </aside>
     </div>
 
-    <div class="page-body nested-copy-line-height lh-copy {{ $.Param "post_content_classes"  | default "serif"}} f5 nested-links {{ $.Param "text_color" | default "mid-gray" }} {{ cond (eq $.Site.Language.LanguageDirection "rtl") "pl4-l" "pr4-l" }} {{ if .Params.toc }}w-50-l{{ else }}w-75-l{{ end }}">
+    <div class="page-body nested-copy-line-height lh-copy {{ $.Param "post_content_classes"  | default "serif"}} f5 nested-links {{ $.Param "text_color" | default "mid-gray" }} {{ cond (eq $.Site.Language.LanguageDirection "rtl") "pl4-l" "pr4-l" }} w-75-l">
       {{ .Content }}
 
     {{ $fileContent := index .Site.Data.journal .Params.bib_basename}}

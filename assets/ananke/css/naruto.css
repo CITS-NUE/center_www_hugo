@@ -115,13 +115,13 @@ table {
    あわせて，長さのまちまちな 11 項目が中央揃えで目で追いにくかったため
    行頭を揃える． */
 
-.page-pannel li {
+.page-pannel > nav > ul > li {
     padding: 0;
     border-bottom: 1px solid #dfe4ea;
     text-align: left;
 }
 
-.page-pannel li a {
+.page-pannel > nav > ul > li > a {
     text-decoration-line: none;
     /* 16px だと「学術認証フェデレーション」が枠(218px)に収まらず
        末尾の 1 文字だけが次行に落ちるため，わずかに詰める */
@@ -135,7 +135,7 @@ table {
     border-left: 3px solid transparent;
 }
 
-.page-pannel li a:hover {
+.page-pannel > nav > ul > li > a:hover {
     background-color: #e8edf2;
     color: #10243d;
 }
@@ -150,11 +150,48 @@ table {
 
 /* 現在ページ．地の色だけでは弱く，かつ文字が最も読みにくくなっていたので，
    濃色・太字・左の線で明示する */
-.page-pannel [aria-current]:not([aria-current="false"]) {
+.page-pannel > nav > ul > li > a[aria-current]:not([aria-current="false"]) {
     background-color: gainsboro;
     color: #10243d;                       /* 11.41:1 */
     font-weight: 700;
     border-left-color: #0059b3;
+}
+
+/* ------------------------------------------------------------------
+   左パネルに入れ子で出す目次
+
+   以前は独立した右カラムに置いていたが，左右に分かれていると
+   250px 幅を占めるうえに視線も分散するため，表示中のページの
+   直下にまとめた．現在ページの左線を下へ伸ばして，
+   そのページの中身であることが分かるようにしている．
+   ------------------------------------------------------------------ */
+
+.page-pannel #TableOfContents {
+    background-color: #eef2f6;
+    border-left: 3px solid #0059b3;
+    padding: 0.35em 0 0.45em;
+}
+
+.page-pannel #TableOfContents ul {
+    margin: 0;
+    padding-left: 0;
+    list-style: none;
+}
+
+.page-pannel #TableOfContents li {
+    border: 0;
+    padding: 0;
+}
+
+.page-pannel #TableOfContents a {
+    display: block;
+    padding: 0.28em 0.7em 0.28em 1.05em;
+    font-size: 0.85rem;
+    line-height: 1.45;
+}
+
+.page-pannel #TableOfContents a:hover {
+    background-color: #dde5ee;
 }
 
 #TableOfContents ul ul > li {
