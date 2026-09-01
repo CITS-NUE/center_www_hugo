@@ -4,7 +4,15 @@
       {{ with .Site.Params.site_logo }}
         <img src="{{ relURL . }}" class="w100 mw5-ns" alt="{{ $.Site.Title }}" />
       {{ else }}
-        {{ .Site.Title }}
+        {{/* 「鳴門教育大学 情報基盤センター」を組織名とセンター名に分け，
+             組織名を小さく表示して従属させる．
+             空白で 2 つに分かれない設定のときはそのまま表示する． */}}
+        {{ $parts := split .Site.Title " " }}
+        {{ if eq (len $parts) 2 }}
+          <span class="site-title-org">{{ index $parts 0 }}</span><span>{{ index $parts 1 }}</span>
+        {{ else }}
+          {{ .Site.Title }}
+        {{ end }}
       {{ end }}
     </a>
     {{/* 画面幅が狭いときだけ表示する開閉ボタン．
