@@ -200,6 +200,15 @@ table {
     border-spacing: 1em 1.25em;
 }
 
+/* ヘッダのサイト名．
+   960px 以上ではメニューと横並びのフレックス項目になるが，
+   flex-shrink が既定の 1 のためメニューに押されて幅が足りなくなり，
+   「情報基盤センタ / ー」と長音符の前で 2 行に折れていた．
+   縮小を止めて自然な幅を保たせる（メニュー側は元々折り返す）． */
+nav a.f3 {
+    flex-shrink: 0;
+}
+
 /* ------------------------------------------------------------------
    本文の見出し
 
@@ -271,8 +280,65 @@ table {
     margin-top: 0;
 }
 
+/* タブレット〜小型ノート．本文の寸法は据え置き，見出しの余白だけ詰める */
 @media screen and (max-width: 960px) {
-    .page-body h2 { font-size: 1.35em; margin-top: 2.4rem; }
-    .page-body h3 { font-size: 1.15em; margin-top: 1.8rem; }
-    .page-body h4 { font-size: 1.02em; margin-top: 1.4rem; }
+    .page-body h2 { margin-top: 2.4rem; }
+    .page-body h3 { margin-top: 1.8rem; }
+    .page-body h4 { margin-top: 1.4rem; }
+}
+
+/* ------------------------------------------------------------------
+   スマートフォン（480px 以下）
+
+   本文の幅は viewport の 9 割を使えており横幅自体は足りているが，
+   本文が 20px のままだと 390px 幅で 1 行 18 字ほどしか入らず，
+   改行が頻繁で読みづらい（日本語は 25〜35 字程度が読みやすい）．
+   字を詰めて行間を広げ，1 行あたりの文字数を稼ぐ．
+   見出しは em 指定なので本文に追随して縮むが，本文との差が
+   小さくなりすぎるため倍率を上げ直している．
+   ------------------------------------------------------------------ */
+@media screen and (max-width: 30em) {
+    .page-body {
+        font-size: 1rem;
+    }
+
+    /* テーマ側に .nested-copy-line-height p{line-height:1.5} があり
+       詳細度が同順位のため，同じ形で指定して上書きする */
+    .page-body p,
+    .page-body ul,
+    .page-body ol,
+    .page-body li {
+        line-height: 1.8;
+    }
+
+    .page-body h2 { font-size: 1.55em; margin-top: 2.2rem; }
+    .page-body h3 { font-size: 1.28em; margin-top: 1.7rem; }
+    .page-body h4 { font-size: 1.12em; margin-top: 1.3rem; }
+
+    /* 左右の余白を詰めて本文の幅を稼ぐ */
+    main article.ph3 {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+
+    /* ページ見出し．48px のままだと 390px 幅に収まらず，
+       「プリンタ（複合 / 機）」のように語中で折り返してしまう */
+    main article > header h1.f1 {
+        font-size: 2rem;
+        line-height: 1.3;
+    }
+
+    /* ヘッダのサイト名．24px では 1 行に収まらず
+       「情報基盤センタ / ー」と長音符の前で折り返していた */
+    nav a.f3 {
+        font-size: 1.25rem;
+    }
+
+    /* 表は画面幅に収まらないことがあるため，はみ出さずに横スクロールさせる */
+    .page-body table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        border-spacing: 6pt 3pt;
+    }
 }
