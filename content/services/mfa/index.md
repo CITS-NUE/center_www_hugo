@@ -17,8 +17,9 @@ Microsoft 365 のセキュリティを強化するため，不正ログイン対
 ## Setup
 To enhance the security of Microsoft 365 and prevent unauthorized access, multi-factor authentication (MFA) is required when logging in from outside the campus.
 
-Please refer to the following manual and complete the initial setup.
-[MFA Setup Manual](MS_mfa2026.pdf)
+Please refer to the following manuals and complete the initial setup.
+- [MFA Setup Manual (Japanese)](MS_mfa2026.pdf)
+- [Setup manuals in English]({{< ref "20220817" >}})
 
 ### Notes
 - We recommend registering two types of authentication methods: app-based authentication and another authentication factor such as a phone number.

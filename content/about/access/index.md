@@ -1,6 +1,6 @@
 ---
 title: 交通案内
-weight: 70
+weight: 75
 summary: センターへのアクセス
 ---
 

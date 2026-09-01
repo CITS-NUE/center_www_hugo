@@ -1,4 +1,5 @@
 ---
+draft: true
 title: 過去のメールニュース
 toc: true
 weight: 30

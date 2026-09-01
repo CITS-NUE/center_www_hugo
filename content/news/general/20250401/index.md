@@ -2,10 +2,6 @@
 title: 令和 7 年度新入生向け利用手順
 date: 2025-04-01
 heading: important
-hot_topic: false
-hot_topic_title: "令和 7 年度 新入生の皆様へ"
-hot_topic_text: "新入生向けに大学情報基盤の利用手順をご準備しています。"
-hot_topic_href_text: "こちらからご確認ください。"
 ---
 
 {{< pdfembed src="./R7_04_情報基盤センターから新入生へのお知らせ 2.pdf#view=fit" width="450" height="700" >}}

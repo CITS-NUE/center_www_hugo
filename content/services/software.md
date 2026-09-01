@@ -12,8 +12,8 @@ summary: 本学がライセンス契約を結んでいるソフトウェアを�
 
 本学の教職員や学生の利用を対象としたライセンス契約です。本学が契約を結んでいる期間中，その契約内容に従って，利用できます。契約更新とともに，利用手引きも変更されますので，ご了承ください。本学がライセンス契約を解除したときや，利用者が利用対象外となったときには，利用できなくなります。
 
-### Office365 （Microsoft 365）アプリ版
-教職員，学生は，Office365アプリをインストールできます。申請の必要はありません。
+### Microsoft 365（Office 365）アプリ版
+教職員，学生は，Microsoft 365 アプリをインストールできます。申請の必要はありません。
 
 > - 個人で購入したパソコン等にもインストールできます。
 > - 卒業・修了／退学・退職時には利用する権利がなくなります。
@@ -66,7 +66,7 @@ summary: 本学がライセンス契約を結んでいるソフトウェアを�
 ### yarai endpoint security
 教職員および学生は，管理する Windows 端末に，FFRI yarai endpoint securityをインストールできます。
 
-<a href = "https://www.ffri.jp/products/products_yarai" target="_blank">yaraiについて</a>
+[yaraiについて](https://www.ffri.jp/products/products_yarai)
 
 [ソフトウェア利用申請](https://forms.office.com/r/2xbjqYZkpD)
 

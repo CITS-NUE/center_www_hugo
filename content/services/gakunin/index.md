@@ -47,7 +47,7 @@ Springer（シュプリンガー）の全学術コンテンツ（電子ジャー
 ## [eduroam](https://www.eduroam.jp/about/)
 Educational Roaming[エデュローム]。大学等教育研究機関の間でキャンパス無線LANの相互利用を実現する，国立情報学研究所(NII)のサービスです。
 
-1. eduroamに参加している学外機関を訪問した際は，本学のユーザID(職員番号)@naruto-u.ac.jp のアカウントで，訪問先機関の無線LAN eduroam に接続します。
+1. eduroamに参加している学外機関を訪問した際は，本学のユーザID(職員番号)@naruto-u.ac.jp のアカウントで，訪問先機関の無線LAN eduroam に接続します。（[利用手順](eduroam-gakunai.pdf)）
 2. eduroamに参加している学外機関所属者(学外者)が来学した際は，本学の無線LAN eduroam に接続します。
 
 ## 注意事項

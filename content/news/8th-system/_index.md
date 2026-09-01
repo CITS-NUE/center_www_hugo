@@ -1,7 +1,6 @@
 ---
 title: "第8期 情報基盤システム更新"
-layout: news_summary
-weight: 1
+weight: 30
 ---
 
 第8期情報基盤システムの更新作業，完了いたしました。

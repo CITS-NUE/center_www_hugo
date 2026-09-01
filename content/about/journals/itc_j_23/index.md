@@ -1,6 +1,6 @@
 ---
-title: 第23号（2026年5月）
+title: 第23号（2026年3月）
 layout: biblio
-date: 2026-05-31
+date: 2026-03-31
 bib_basename: "2026"
 ---
