@@ -9,6 +9,9 @@ on:
     branches:
       - master
 
+env:
+  HUGO_VERSION: 0.165.0
+
 jobs:
   build_and_deploy_job:
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
@@ -19,6 +22,24 @@ jobs:
         with:
           submodules: true
           lfs: false
+      # Oryx（Azure SWA 内蔵のビルダ）は Debian bullseye / glibc 2.31 で，
+      # 0.146 以降の hugo_extended が要求する GLIBC_2.32+ を満たさない．
+      # そのため Hugo は runner 側で用意し，SWA にはデプロイのみさせる．
+      # テーマ ananke が css.Sass を使うため extended 版が必要．
+      - name: Setup Hugo
+        run: |
+          set -euo pipefail
+          base="https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}"
+          tarball="hugo_extended_${HUGO_VERSION}_linux-amd64.tar.gz"
+          curl -sSLf -o "$tarball" "$base/$tarball"
+          curl -sSLf -o checksums.txt "$base/hugo_${HUGO_VERSION}_checksums.txt"
+          grep " $tarball\$" checksums.txt | sha256sum -c -
+          tar -xzf "$tarball" hugo
+          sudo install hugo /usr/local/bin/hugo
+          rm -f hugo "$tarball" checksums.txt
+          hugo version
+      - name: Build
+        run: hugo --gc
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
@@ -28,12 +49,11 @@ jobs:
           action: "upload"
           ###### Repository/Build Configurations - These values can be configured to match your app requirements. ######
           # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
-          app_location: "/" # App source code path
+          app_location: "public" # skip_app_build 時はここがビルド済み成果物フォルダ
           api_location: "" # Api source code path - optional
-          output_location: "/public" # Built app content directory - optional
+          output_location: "" # skip_app_build 時は無視される
+          skip_app_build: true # 上の Build ステップで生成済み（Oryx は使わない）
           ###### End of Repository/Build Configurations ######
-        env:
-          HUGO_VERSION: 0.145.0
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
