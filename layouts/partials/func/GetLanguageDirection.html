@@ -1,0 +1,18 @@
+{{/*
+  テーマ themes/ananke/layouts/partials/func/GetLanguageDirection.html の上書き．
+
+  Hugo 0.165.0 では，partial が空値を返し，それを baseof.html の
+  `<html ...>` タグ内の `with` に渡すと Go の html/template が
+  文脈エスケープに失敗し，属性位置に ZgotmplZ が出力される．
+
+    <html lang="ja-jp"ZgotmplZ>
+
+  返り値の型（"" / false / 空スライス）を変えても再現し，非空の値を
+  返した場合のみ正常になる．そこで日本語サイトとして正しい "ltr" を
+  返し，`<html lang="ja-jp" dir="ltr">` を出力させる．
+
+  上流 ananke は v2.19.0 でこの partial 自体を廃止し，baseof で
+  site.Language.Direction を直接参照する形に修正済み．テーマを更新
+  すればこの上書きは不要になる（残っていても無害）．
+*/}}
+{{ return "ltr" }}
