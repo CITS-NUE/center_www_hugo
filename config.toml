@@ -1,5 +1,5 @@
 baseURL = 'https://www.naruto-u.ac.jp/center/it/'
-languageCode = 'ja-jp'
+locale = 'ja-jp'
 title = '鳴門教育大学 情報基盤センター'
 theme = ["ananke"]
 
