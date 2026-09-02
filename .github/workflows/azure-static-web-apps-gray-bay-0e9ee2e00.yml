@@ -49,9 +49,9 @@ jobs:
           action: "upload"
           ###### Repository/Build Configurations - These values can be configured to match your app requirements. ######
           # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
-          app_location: "/" # App source code path
+          app_location: "public" # skip_app_build 時はここがビルド済み成果物フォルダ
           api_location: "" # Api source code path - optional
-          output_location: "/public" # Built app content directory - optional
+          output_location: "" # skip_app_build 時は無視される
           skip_app_build: true # 上の Build ステップで生成済み（Oryx は使わない）
           ###### End of Repository/Build Configurations ######
 
