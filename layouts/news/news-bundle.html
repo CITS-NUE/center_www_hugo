@@ -1,15 +1,22 @@
 {{ define "main" }}
-  <article class="flex-l flex-wrap justify-center mw9 center ph3 pt5">
+  {{/* 最新情報のトップ．区分ごとの抜粋を縦に並べる．
+
+       以前は各区分を w-80-l のフレックス項目にしていたため，
+       区分名と一覧の面が横に並んだり，区分ごとに面の幅が変わったりしていた．
+       素直に縦に積む． */}}
+  <article class="mw8 center ph3 pt4">
 
     {{ range .Sections.ByWeight }}
-    <section class="mb4 w-80-l flex-l flex-wrap justify-center">
-      {{- partial "latest-section-news.html" . -}}
-    </section>
+      <section class="news-section">
+        {{- partial "latest-section-news.html" . -}}
+      </section>
     {{ end }}
 
-    <section class="w-100 cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy {{ $.Param "text_color" | default "mid-gray" }}">
-      {{- .Content -}}
-    </section>
+    {{ with .Content }}
+      <div class="section-lead mt4 {{ $.Param "post_content_classes" | default "serif" }} nested-links">
+        {{ . }}
+      </div>
+    {{ end }}
 
   </article>
 {{ end }}

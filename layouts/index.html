@@ -1,49 +1,110 @@
+{{/* トップページ．
+
+     以前は「注目の話題」「新着情報」「問い合わせ」「外部リンク」を
+     それぞれ独立した article として縦に積んでいた．最後の article は
+     本文（.Content）が空のまま w-70-l の枠を確保していたため，
+     画面の下半分がほぼ空白で，外部リンクだけが右に浮いていた．
+
+     ここでは器を 1 つにまとめ，空白だったところに，
+     すでに各ページが持っている summary からサービス一覧を組み立てる． */}}
+
+{{ define "header" }}
+  {{ partial "home-hero.html" . }}
+{{ end }}
+
 {{ define "main" }}
-  {{ $hot_sections := where .Site.RegularPages "Params.hot_topic" "==" true }}
-  {{ $hot_sections_count := len $hot_sections }}
-  {{ if ge $hot_sections_count 1 }}
-    {{ with $hot_sections.ByDate.Reverse }}
-      {{- partial "hot-topic.html" . -}}
-    {{ end }}
-  {{ end }}
-  {{/* Create a variable with that section to use in multiple places. */}}
-  {{ $section := where .Site.RegularPages "Params.heading" "!=" nil }}
-  {{/* Check to see if the section is defined for ranging through it */}}
-  {{ $section_count := len $section }}
-  {{ if ge $section_count 1 }}
-    {{ $n_posts := $.Param "recent_top_news" | default 3 }}
-    <article class="w-70-l flex-l flex-wrap justify-center mw9 center ph3 pt5">
-      <section class="w-100 center">
-        <div class="relative w-100 pb2 bg-white nested-copy-line-height">
-          <div class="mb3 pa4 pv3 gray overflow-hidden">
-            <h1 class="f3 near-black">
-              {{ i18n "topNews" }}
-            </h1>
-            <div class="nested-links f5 lh-copy">
-              {{ $page_count := len .Pages }}
-              {{ with (first $n_posts $section.ByDate.Reverse) }}
-              {{- partial "news-table.html" . -}}
-              {{ end }}
-            </div>
-          </div>
+<div class="home">
+
+  {{/* ---- 注目の話題 ---------------------------------------------- */}}
+  {{ with (where .Site.RegularPages "Params.hot_topic" "==" true).ByDate.Reverse }}
+    <section class="home-wrap home-section home-section--lead">
+      {{ range . }}
+        <div class="home-notice">
+          <h2 class="home-notice__title">{{ .Params.hot_topic_title }}</h2>
+          {{ with .Params.hot_topic_text }}<p class="home-notice__text">{{ . }}</p>{{ end }}
+          <p class="home-notice__action">
+            <a class="home-btn" href="{{ .RelPermalink }}">{{ .Params.hot_topic_href_text }}</a>
+          </p>
         </div>
-      </section>
-    </article>
-  {{ end }}
-  <article class="w-70-l flex-l flex-wrap justify-center mw9 center ph3 pt5">
-    <h2><a href="https://forms.office.com/r/UtE23YGurr">{{ i18n "toContact" }}</a></h2>
-  </article>
-  <article class="w-70-l flex-l flex-wrap justify-center mw9 center ph3 pt5">
-    <div class="relative w-100 w-70-l">
-      {{ .Content }}
-    </div>
-    <div class="relative w-100 w-30-l links">
-      <h3>{{ i18n "extLinks" }}</h3>
-      <ul>
-      {{ range .Site.Data.links}}
-        <li><a href="{{ .url }}" target="_blank">{{ .title }}</a></li>
       {{ end }}
+    </section>
+  {{ end }}
+
+  {{/* ---- 新着情報 ------------------------------------------------ */}}
+  {{ $news := where .Site.RegularPages "Params.heading" "!=" nil }}
+  {{ with first ($.Param "recent_top_news" | default 3) $news.ByDate.Reverse }}
+    <section class="home-wrap home-section">
+      <div class="section-head">
+        <h2 class="section-head__title">{{ i18n "topNews" }}</h2>
+        {{ with site.GetPage "/news" }}
+          <a class="section-head__more" href="{{ .RelPermalink }}">{{ i18n "viewAll" }}</a>
+        {{ end }}
+      </div>
+      <div class="card-panel">
+        {{- partial "news-table.html" . -}}
+      </div>
+    </section>
+  {{ end }}
+
+  {{/* ---- 各種サービス --------------------------------------------
+       各ページの front matter にある summary をそのまま使う．
+       並び順は左パネルと同じ weight 順． */}}
+  {{ with site.GetPage "/services" }}
+    <section class="home-wrap home-section">
+      <div class="section-head">
+        <h2 class="section-head__title">{{ .Title }}</h2>
+        <a class="section-head__more" href="{{ .RelPermalink }}">{{ i18n "viewAll" }}</a>
+      </div>
+      {{ with .Content }}
+        <div class="home-lead">{{ . }}</div>
+      {{ end }}
+      <ul class="card-grid">
+        {{ range .Pages.ByWeight }}
+          <li>
+            <a class="card-tile" href="{{ .RelPermalink }}">
+              <span class="card-tile__title">{{ .Title }}</span>
+              {{ with .Params.summary }}
+                <span class="card-tile__text">{{ . }}</span>
+              {{ end }}
+            </a>
+          </li>
+        {{ end }}
       </ul>
-    </div>
-  </article>
+    </section>
+  {{ end }}
+
+  {{/* ---- ページ本文（content/_index.md に本文があれば） ------------ */}}
+  {{ with .Content }}
+    <section class="home-wrap home-section">
+      <div class="card-panel card-panel--body page-body nested-copy-line-height nested-links">
+        {{ . }}
+      </div>
+    </section>
+  {{ end }}
+
+  {{/* ---- お問い合わせ・外部リンク --------------------------------- */}}
+  <section class="home-wrap home-section home-section--foot">
+    <a class="home-contact" href="https://forms.office.com/r/UtE23YGurr">
+      <span>{{ i18n "toContact" }}</span>
+      <span class="home-contact__arrow" aria-hidden="true">→</span>
+    </a>
+
+    {{ with .Site.Data.links }}
+      <div class="home-links">
+        <h2 class="home-links__title">{{ i18n "extLinks" }}</h2>
+        <ul class="home-links__grid">
+          {{ range . }}
+            <li>
+              <a href="{{ .url }}" target="_blank" rel="noopener">
+                <span>{{ .title }}</span>
+                <span class="home-links__ext" aria-hidden="true">↗</span>
+              </a>
+            </li>
+          {{ end }}
+        </ul>
+      </div>
+    {{ end }}
+  </section>
+
+</div>
 {{ end }}

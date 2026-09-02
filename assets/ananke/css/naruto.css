@@ -17,7 +17,10 @@ p > code, li > code {
     top: 4rem;
     right: 0;
     z-index: 2;
-    height: calc(100vh - 7rem);
+    /* height だと，項目の少ないページでも左パネルが画面の高さ分を占め，
+       講演会・セミナー（2 ページ）のように本文が短いページで
+       下に画面 1 つ分の空白ができていた．上限だけを決める． */
+    max-height: calc(100vh - 7rem);
     overflow-y: auto
 }
 
@@ -100,51 +103,118 @@ table {
     white-space: nowrap;
 }
 
-.page-pannel li {
-    padding: 0px;
-    border-bottom: .5pt solid gray;
-    text-align: center;
+/* 3 列のテキスト開始位置を揃える．
+   左パネルは囲みの pa2(8px)，右目次は p の既定マージン(16px)，
+   本文は最初の見出しのマージン(17.6px)で始まっており，
+   左パネルだけ 10px 高い位置から始まっていた． */
+.page-pannel {
+    margin-top: 10px;
 }
 
-.page-pannel li a {
+/* リンクが gray(#808080) で，地(#F4F4F4)とのコントラストが 3.59:1 と
+   WCAG AA の 4.5:1 を下回っていた．とくに現在ページは地が gainsboro に
+   変わるため 2.88:1 となり，一覧の中で最も読みにくいという逆転が
+   起きていた（本文は 6.78:1）．
+   あわせて，長さのまちまちな 11 項目が中央揃えで目で追いにくかったため
+   行頭を揃える． */
+
+.page-pannel > nav > ul > li {
+    padding: 0;
+    border-bottom: 1px solid #dfe4ea;
+    text-align: left;
+}
+
+.page-pannel > nav > ul > li > a {
     text-decoration-line: none;
-    color: gray;
+    /* 16px だと「学術認証フェデレーション」が枠(218px)に収まらず
+       末尾の 1 文字だけが次行に落ちるため，わずかに詰める */
+    font-size: 0.94rem;
+    color: #4a4a4a;                       /* 8.06:1 */
     display: block;
     width: 100%;
-    height: 100%;
-    margin: 0px;
-    padding-top: 8pt;
-    padding-bottom: 8pt;
+    margin: 0;
+    padding: 0.65em 0.7em;
+    /* 現在ページの目印と幅を合わせ，選択で行がずれないようにする */
+    border-left: 3px solid transparent;
 }
 
-.page-pannel li a:hover{
-    background-color: gainsboro;
-    color: gray;
+.page-pannel > nav > ul > li > a:hover {
+    background-color: #e8edf2;
+    color: #10243d;
 }
 
 .page-pannel .f5 {
     border-top: 1.2pt solid green;
-    border-bottom: .8pt solid gray;
-    padding-top: 15pt;
-    padding-bottom: 15pt;
+    border-bottom: 1px solid #cfd6de;
+    padding: 0.9em 0.7em;
     background-color: whitesmoke;
-    text-align: center;
+    text-align: left;
 }
 
-.page-pannel [aria-current]:not([aria-current="false"]) {
+/* 現在ページ．地の色だけでは弱く，かつ文字が最も読みにくくなっていたので，
+   濃色・太字・左の線で明示する */
+.page-pannel > nav > ul > li > a[aria-current]:not([aria-current="false"]) {
     background-color: gainsboro;
+    color: #10243d;                       /* 11.41:1 */
+    font-weight: 700;
+    border-left-color: #0059b3;
+}
+
+/* ------------------------------------------------------------------
+   左パネルに入れ子で出す目次
+
+   以前は独立した右カラムに置いていたが，左右に分かれていると
+   250px 幅を占めるうえに視線も分散するため，表示中のページの
+   直下にまとめた．現在ページの左線を下へ伸ばして，
+   そのページの中身であることが分かるようにしている．
+   ------------------------------------------------------------------ */
+
+.page-pannel #TableOfContents {
+    background-color: #eef2f6;
+    border-left: 3px solid #0059b3;
+    padding: 0.35em 0 0.45em;
+}
+
+.page-pannel #TableOfContents ul {
+    margin: 0;
+    padding-left: 0;
+    list-style: none;
+}
+
+.page-pannel #TableOfContents li {
+    border: 0;
+    padding: 0;
+}
+
+.page-pannel #TableOfContents a {
+    display: block;
+    padding: 0.28em 0.7em 0.28em 1.05em;
+    font-size: 0.85rem;
+    line-height: 1.45;
+}
+
+.page-pannel #TableOfContents a:hover {
+    background-color: #dde5ee;
 }
 
 #TableOfContents ul ul > li {
-    margin-left: 13px;
+    margin-left: 16px;
 }
 
 #TableOfContents ul ul {
     margin-top: 7px;
 }
 
+/* 既定のリンク色 #357EDD は地(#F4F4F4)とのコントラストが 3.69:1 で
+   AA を下回るため，サイトのブランド色に寄せて濃くする */
 #TableOfContents a {
     text-decoration: none;
+    color: #0059b3;                       /* 6.20:1 */
+}
+
+#TableOfContents a:hover {
+    color: #10243d;
+    text-decoration: underline;
 }
 
 @media screen and (max-width: 960px) {
@@ -198,4 +268,938 @@ table {
 .journal-table {
     border-collapse:separate;
     border-spacing: 1em 1.25em;
+}
+
+/* ------------------------------------------------------------------
+   ヘッダのナビゲーション（ハンバーガーメニュー）
+
+   メニュー項目は合計 864px あり，サイト名と並べて 1 行に収まるのは
+   1440px 以上．960px 未満では項目がサイト名の下に 2〜3 行で積み上がり，
+   ヘッダだけで 140px 以上を占めていた．
+   既存の dn-mobile と同じ 960px を境に，開閉式に切り替える．
+
+   ボタンは既定で hidden にしてあり，スクリプトが表示する．
+   JavaScript が動かない環境ではメニューは開いたままで従来どおり使える．
+   ------------------------------------------------------------------ */
+
+.nav-toggle {
+    display: none;
+    align-items: center;
+    gap: 0.5em;
+    margin: 0;
+    padding: 0.5em 0.7em;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    border-radius: 3px;
+    background: transparent;
+    color: #fff;
+    font: inherit;
+    font-size: 0.95rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.nav-toggle:hover,
+.nav-toggle:focus-visible {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.nav-toggle-box {
+    display: inline-block;
+    width: 1.15em;
+}
+
+.nav-toggle-bar {
+    display: block;
+    height: 2px;
+    background-color: currentColor;
+    border-radius: 1px;
+}
+
+.nav-toggle-bar + .nav-toggle-bar {
+    margin-top: 4px;
+}
+
+/* 開いているときは×印にする */
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+}
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(2) {
+    opacity: 0;
+}
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+}
+
+.nav-toggle-bar {
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .nav-toggle-bar { transition: none; }
+}
+
+/* 寸法を詰めた結果，インライン表示が 1 行に収まるのは 1135px から
+   （変更前は 1295px）．これを下回る幅ではハンバーガーに切り替え，
+   2 行になるのを防ぐ．余裕をみて 72em = 1152px を境にする． */
+@media screen and (max-width: 72em) {
+    /* サイト名と開閉ボタンを 1 行に並べ，メニューはその下に全幅で置く */
+    nav[role="navigation"] > div {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .nav-toggle {
+        display: inline-flex;
+        /* 1 行に収まらず折り返した場合も右端に置く */
+        margin-left: auto;
+    }
+
+    .nav-menu {
+        flex-basis: 100%;
+        width: 100%;
+    }
+
+    /* スクリプトが有効なときだけ閉じる．無効なら開いたまま */
+    .nav-menu--collapsible {
+        display: none;
+    }
+
+    /* トップページではヘッダが写真の上に重なるため，
+       背景がないとメニュー項目が読み取れない．
+       下層ページのヘッダと同じ色の面を敷いて可読性を確保する． */
+    .nav-menu--collapsible.nav-menu--open {
+        display: block;
+        margin-top: 0.75rem;
+        padding: 0 0.9rem;
+        background-color: #0059b3;
+        border-radius: 3px;
+    }
+
+    /* パネル上端と最初の項目の罫線が二重に見えるのを避ける */
+    .nav-menu li:first-child {
+        border-top: 0;
+    }
+
+    /* 閉じた状態から縦に並べ直す．横並びの詰め込みをやめ，
+       1 項目 1 行にして押しやすくする */
+    .nav-menu ul {
+        margin: 0;
+    }
+
+    .nav-menu li {
+        display: block;
+        padding-right: 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.25);
+    }
+
+    .nav-menu li a {
+        display: block;
+        padding: 0.7em 0.2em;
+    }
+}
+
+/* 480px 以下ではサイト名（287px）と「メニュー」表記付きのボタン（約110px）が
+   1 行に収まらず，ボタンが 2 行目に落ちてしまう．
+   文字は読み上げには残したまま見た目だけ隠し，アイコンだけにする． */
+@media screen and (max-width: 30em) {
+    .nav-toggle-label {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        padding: 0;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        white-space: nowrap;
+        border: 0;
+    }
+}
+
+/* ヘッダのメニュー項目．本文に合わせて 20px から 18px に詰める．
+   項目合計が 864px から 788px になり，1 行に収まる幅が下がる． */
+.nav-menu li.list {
+    font-size: 1.125rem;
+}
+
+/* サイト名．「鳴門教育大学」と「情報基盤センター」を同じ大きさで
+   並べると 344px を占め冗長に見えるため，大学名を小さくして従属させる．
+   公的機関のサイトなので組織名自体は残す． */
+.site-title-org {
+    font-size: 0.62em;
+    opacity: 0.85;
+    margin-right: 0.5em;
+}
+
+/* ヘッダのサイト名．
+   960px 以上ではメニューと横並びのフレックス項目になるが，
+   flex-shrink が既定の 1 のためメニューに押されて幅が足りなくなり，
+   「情報基盤センタ / ー」と長音符の前で 2 行に折れていた．
+   縮小を止めて自然な幅を保たせる（メニュー側は元々折り返す）． */
+nav a.f3 {
+    /* テーマ既定の f3(24px) は本文 18px・メニュー 18px に対して大きすぎるため
+       18px に下げる．テーマの fw2（太さ200）のままだと細く沈むので，
+       この寸法では太さを 400 に上げて識別性を保つ */
+    font-size: 1.125rem;
+    font-weight: 400;
+    flex-shrink: 0;
+}
+
+/* ------------------------------------------------------------------
+   本文の寸法
+
+   本文は 20px と大きめで，かつ目次のないページは幅に上限がないため
+   1280px で 1 行 48 字まで伸びていた（日本語は 25〜40 字程度が読みやすい）．
+   文字を小さくするだけでは行長がさらに伸びて悪化するので，
+   寸法を 18px に落としたうえで行長そのものに上限を設ける．
+   ------------------------------------------------------------------ */
+
+.page-body {
+    font-size: 1.125rem;
+}
+
+/* 1 行が長くなりすぎないよう上限を設ける（約 40 字）．
+   コンテナ自体を狭めると，article が justify-between のフレックスのため
+   余った幅の分だけ本文が右へ押され，ページ見出し（h1）と左端がずれる．
+   そのため上限は中の各ブロックとページ見出しに掛ける．
+   見出しは em が自身の字送り基準になってしまうので rem で指定する． */
+.page-body > *,
+main article header h1 {
+    max-width: 45rem;
+}
+
+/* テーマ側の .nested-copy-line-height p{line-height:1.5} と
+   詳細度が同順位のため，同じ形で指定して上書きする */
+.page-body p,
+.page-body ul,
+.page-body ol,
+.page-body li {
+    line-height: 1.75;
+}
+
+/* ------------------------------------------------------------------
+   ページ見出し（h1）まわりの縦の間隔
+
+   テーマ既定では h1 の下マージンが 4px しかなく，本文までが 21px と
+   上（48px）に対して詰まりすぎていた．さらに news 記事は日付の
+   上下マージンが 2rem あるため本文までが 101px と開きすぎ，
+   ページ種別で縦の間隔が揃っていなかった．
+
+   日付は見出しに属する情報なので見出し側へ寄せ，
+   本文へ移る間隔をどのページでも約 40px に揃える．
+   ------------------------------------------------------------------ */
+
+main article header h1.f1 {
+    margin-bottom: 1.4rem;
+}
+
+main article header time.f6 {
+    margin-top: 0;
+    margin-bottom: 1.4rem;
+}
+
+/* ------------------------------------------------------------------
+   本文の見出し
+
+   .page-body は本文（.Content）を包むコンテナにのみ付与している．
+   nested-copy-line-height は目次やカード一覧でも使われているため，
+   そちらをセレクタにすると見出しの装飾が漏れてしまう．
+
+   本文は 20px．元は h2:30px / h3:23.4px / h4:20px で，h4 が本文と
+   同寸だったため階層が読み取れなかった．寸法差に加えて，
+   左のアクセントバーを 6px → 4px → 3px と細く，色を濃 → 淡と
+   弱めることで段階を示す．色は既存の #0059b3（ヘッダ・ボタン）に揃えた．
+   ------------------------------------------------------------------ */
+
+.page-body h2,
+.page-body h3,
+.page-body h4 {
+    line-height: 1.45;
+    /* 見出しは直後の本文と一塊に見えるよう，上の余白を下より大きく取る */
+    margin-bottom: 0.5rem;
+}
+
+.page-body h2 {
+    font-size: 1.5em;
+    color: #10243d;
+    margin-top: 3.2rem;
+    margin-bottom: 1.1rem;
+    padding: 0 0 0.35em 0.6em;
+    border-left: 6px solid #0059b3;
+    border-bottom: 1px solid #dfe4ea;
+}
+
+.page-body h3 {
+    font-size: 1.2em;
+    color: #0059b3;
+    margin-top: 2.2rem;
+    padding-left: 0.6em;
+    border-left: 4px solid #9cc4e4;
+}
+
+.page-body h4 {
+    font-size: 1.05em;
+    color: #33475b;
+    margin-top: 1.7rem;
+    padding-left: 0.6em;
+    border-left: 3px solid #c7d3de;
+}
+
+/* 本文の先頭が見出しのとき，上に余白が空きすぎないようにする．
+   ただしページ見出し（h1）とくっつくと窮屈なので少しだけ空ける． */
+.page-body > :first-child {
+    margin-top: 0;
+}
+.page-body > h2:first-child,
+.page-body > h3:first-child,
+.page-body > h4:first-child {
+    margin-top: 1.1rem;
+}
+
+/* 見出しが連続する場合は間を詰める（節と小節の間に空白が空くのを防ぐ） */
+.page-body h2 + h3,
+.page-body h3 + h4 {
+    margin-top: 1rem;
+}
+
+/* 見出し直後の本文・リスト・表は詰めて，見出しとの結び付きを強める */
+.page-body h2 + p, .page-body h3 + p, .page-body h4 + p,
+.page-body h2 + ul, .page-body h3 + ul, .page-body h4 + ul,
+.page-body h2 + ol, .page-body h3 + ol, .page-body h4 + ol {
+    margin-top: 0;
+}
+
+/* タブレット〜小型ノート．本文の寸法は据え置き，見出しの余白だけ詰める */
+@media screen and (max-width: 960px) {
+    .page-body h2 { margin-top: 2.4rem; }
+    .page-body h3 { margin-top: 1.8rem; }
+    .page-body h4 { margin-top: 1.4rem; }
+}
+
+/* ------------------------------------------------------------------
+   スマートフォン（480px 以下）
+
+   本文の幅は viewport の 9 割を使えており横幅自体は足りているが，
+   本文が 20px のままだと 390px 幅で 1 行 18 字ほどしか入らず，
+   改行が頻繁で読みづらい（日本語は 25〜35 字程度が読みやすい）．
+   字を詰めて行間を広げ，1 行あたりの文字数を稼ぐ．
+   見出しは em 指定なので本文に追随して縮むが，本文との差が
+   小さくなりすぎるため倍率を上げ直している．
+   ------------------------------------------------------------------ */
+@media screen and (max-width: 30em) {
+    .page-body {
+        font-size: 1rem;
+    }
+
+    /* テーマ側に .nested-copy-line-height p{line-height:1.5} があり
+       詳細度が同順位のため，同じ形で指定して上書きする */
+    .page-body p,
+    .page-body ul,
+    .page-body ol,
+    .page-body li {
+        line-height: 1.8;
+    }
+
+    .page-body h2 { font-size: 1.55em; margin-top: 2.2rem; }
+    .page-body h3 { font-size: 1.28em; margin-top: 1.7rem; }
+    .page-body h4 { font-size: 1.12em; margin-top: 1.3rem; }
+
+    /* 左右の余白を詰めて本文の幅を稼ぐ */
+    main article.ph3 {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+
+    /* ページ見出し．48px のままだと 390px 幅に収まらず，
+       「プリンタ（複合 / 機）」のように語中で折り返してしまう */
+    main article > header h1.f1 {
+        font-size: 2rem;
+        line-height: 1.3;
+    }
+
+    /* ヘッダのサイト名．24px では 1 行に収まらず
+       「情報基盤センタ / ー」と長音符の前で折り返していた */
+    /* 表は画面幅に収まらないことがあるため，はみ出さずに横スクロールさせる */
+    .page-body table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        border-spacing: 6pt 3pt;
+    }
+}
+
+/* ==================================================================
+   トップページ
+
+   以前は，注目の話題・新着情報・問い合わせ・外部リンクを
+   それぞれ独立した article として積み，最後の article は
+   本文が空のまま 70% の枠を確保していたため，
+   1280px 幅で見ると縦 2193px のうち下 500px ほどが空白で，
+   外部リンクだけが右に浮いていた．
+
+   ここでは器を 1 つ（.home-wrap，68rem）に揃え，空いていたところに
+   各サービスページの summary から一覧を組み立てる．
+   色は既存のブランド色（#0059b3・#10243d）にそろえた．
+   ================================================================== */
+
+/* 色の基準．カード（.card-tile）は一覧ページでも使うため :root に置く．
+   .home に閉じていたときは，トップページ以外で var() が解決できず，
+   題名も枠線もリンクの青のままになっていた． */
+:root {
+    --nue-brand: #0059b3;
+    --nue-deep: #10243d;
+    --nue-ink: #3c4f63;
+    --nue-muted: #6b7785;
+    --nue-line: #e2e8f0;
+}
+
+/* テーマ既定の main は下に pb7（16rem＝256px）の余白を持つ．
+   項目の少ない一覧ページ（講演会・セミナーなど）では画面 1 つ分近い空白になり，
+   フッタが遠のいて「まだ続きがある」ように見えていた．全ページで 4rem に詰める． */
+main.pb7 {
+    padding-bottom: 4rem;
+}
+
+.home-wrap {
+    max-width: 68rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+}
+
+.home-section {
+    margin-top: 3.5rem;
+}
+
+/* ヒーロー直下の 1 つ目だけは，写真との間隔を少し詰める */
+.home-section--lead {
+    margin-top: 2.5rem;
+}
+
+.home > .home-section:first-child {
+    margin-top: 2.5rem;
+}
+
+/* ------------------------------------------------------------------
+   ヒーロー（写真の見出し）
+   ------------------------------------------------------------------ */
+
+.home-hero {
+    background-color: var(--nue-deep);
+    background-position: center 45%;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+/* 一様な黒 60% を敷くと，写真も文字も等しく濁る．
+   文字が乗る上下だけを暗くして，中央の写真は残す． */
+.home-hero__scrim {
+    background-image: linear-gradient(
+        to bottom,
+        rgba(5, 17, 31, 0.82) 0,
+        rgba(5, 17, 31, 0.40) 42%,
+        rgba(5, 17, 31, 0.78) 100%);
+}
+
+.home-hero--plain .home-hero__scrim {
+    background-image: none;
+    background-color: var(--nue-brand);
+}
+
+.home-hero__inner {
+    max-width: 68rem;
+    margin: 0 auto;
+    padding: 4rem 1.25rem 4.75rem;
+    text-align: center;
+}
+
+.home-hero__title {
+    margin: 0;
+    color: #fff;
+    /* 画面幅に追随させる．48px 固定では 390px 幅で 2 行に折れていた */
+    font-size: clamp(2.1rem, 5vw, 3.5rem);
+    font-weight: 400;
+    line-height: 1.25;
+    letter-spacing: 0.08em;
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.45);
+}
+
+.home-hero__rule {
+    width: 68px;
+    height: 3px;
+    margin: 1.5rem auto 1.2rem;
+    border: 0;
+    border-radius: 2px;
+    /* ヘッダ・フッタの帯（青地に緑の差し色）と同じ組み合わせ */
+    background-image: linear-gradient(90deg, #0079f3, #2fa36b);
+}
+
+.home-hero__lead {
+    max-width: 42rem;
+    margin: 0 auto;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+    line-height: 1.75;
+    letter-spacing: 0.04em;
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
+}
+
+@media screen and (max-width: 30em) {
+    .home-hero__inner {
+        padding: 2.5rem 1rem 3rem;
+    }
+}
+
+/* ------------------------------------------------------------------
+   節の見出しと共通の面
+   ------------------------------------------------------------------ */
+
+/* 本文の h2 と同じ言い回し（青の縦棒＋下の細罫）にそろえ，
+   右端に一覧へのリンクを置く．トップページと最新情報の両方で使う． */
+.section-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem 1rem;
+    margin-bottom: 1.15rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--nue-line);
+}
+
+.section-head__title {
+    margin: 0;
+    padding-left: 0.55em;
+    border-left: 6px solid var(--nue-brand);
+    color: var(--nue-deep);
+    font-size: 1.375rem;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.section-head__title a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.section-head__title a:hover {
+    text-decoration: underline;
+}
+
+.section-head__more {
+    color: var(--nue-brand);
+    font-size: 0.9rem;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.section-head__more::after {
+    content: " ›";
+}
+
+.section-head__more:hover {
+    color: var(--nue-deep);
+    text-decoration: underline;
+}
+
+.home-lead {
+    max-width: 45rem;
+    margin: -0.2rem 0 1.25rem;
+    color: var(--nue-ink);
+    font-size: 0.95rem;
+    line-height: 1.8;
+}
+
+.home-lead p {
+    margin: 0;
+}
+
+.card-panel {
+    background-color: #fff;
+    border: 1px solid var(--nue-line);
+    border-radius: 8px;
+    box-shadow: 0 1px 2px rgba(16, 36, 61, 0.05);
+}
+
+.card-panel--body {
+    padding: 1.5rem 1.6rem;
+}
+
+/* ------------------------------------------------------------------
+   注目の話題
+   ------------------------------------------------------------------ */
+
+.home-notice {
+    background-color: #fff;
+    border: 1px solid #e8dcdc;
+    border-left: 6px solid #c8102e;
+    border-radius: 8px;
+    padding: 1.4rem 1.6rem 1.5rem;
+    box-shadow: 0 1px 2px rgba(16, 36, 61, 0.05);
+}
+
+.home-notice + .home-notice {
+    margin-top: 1rem;
+}
+
+.home-notice__title {
+    margin: 0;
+    color: #a50f26;
+    font-size: 1.3rem;
+    font-weight: 700;
+    line-height: 1.45;
+}
+
+.home-notice__text {
+    margin: 0.55rem 0 0;
+    color: var(--nue-ink);
+    font-size: 1rem;
+    line-height: 1.8;
+}
+
+.home-notice__action {
+    margin: 1.1rem 0 0;
+}
+
+/* 既存の .forDetail と同じ色づかいの，一回り大きいボタン */
+.home-btn {
+    display: inline-block;
+    padding: 0.6em 1.5em;
+    border-radius: 999px;
+    background-color: var(--nue-brand);
+    color: #fff;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    text-decoration: none;
+    transition: background-color 0.15s ease;
+}
+
+.home-btn:hover,
+.home-btn:focus-visible {
+    background-color: #0079f3;
+    color: #fff;
+}
+
+/* ------------------------------------------------------------------
+   新着情報
+
+   以前は table で，日付・区分・題名が border-spacing だけで
+   区切られており，行の境目が分からなかった．
+   1 行全体をリンクにして，罫線と hover で行を追えるようにする．
+   ------------------------------------------------------------------ */
+
+.news-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.news-list__item + .news-list__item {
+    border-top: 1px solid #eef1f5;
+}
+
+.news-list__link {
+    display: grid;
+    grid-template-columns: 6.2rem 5.4rem 1fr;
+    align-items: baseline;
+    gap: 0 1rem;
+    padding: 0.85rem 1.25rem;
+    color: var(--nue-deep);
+    text-decoration: none;
+}
+
+.news-list__link:hover,
+.news-list__link:focus-visible {
+    background-color: #f4f8fc;
+}
+
+.news-list__date {
+    color: var(--nue-muted);
+    font-size: 0.85rem;
+    /* 桁を揃えて日付を縦に読めるようにする */
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
+}
+
+.news-list__title {
+    font-size: 0.98rem;
+    line-height: 1.6;
+}
+
+.news-list__link:hover .news-list__title {
+    text-decoration: underline;
+}
+
+/* 区分の札．色の対応（.hd-important など）は一覧ページと共用し，
+   トップページでは寸法だけを丸い札に上書きする．
+   .hd-* は td 向けに width:60pt を持つため，後ろで打ち消す． */
+.hd-badge {
+    display: block;          /* グリッド項目なので列幅いっぱいに伸びる */
+    width: auto;             /* .hd-* の width:60pt（td 向け）を打ち消す */
+    padding: 0.2em 0.6em;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    line-height: 1.5;
+    text-align: center;
+}
+
+/* 純色の赤に白文字はコントラストが 4.0:1 で AA（4.5:1）に届かない．
+   注目の話題の縁と同じ濃さ（5.9:1）にそろえる．
+   一覧ページの表はこの札を使っていないため，そちらの見た目は変わらない． */
+.hd-badge.hd-important {
+    background-color: #c8102e;
+}
+
+/* ------------------------------------------------------------------
+   カード一覧
+
+   トップページの各種サービスと，各セクションの一覧ページ
+   （センター紹介・各種サービス・講演会など）で共用する．
+   ------------------------------------------------------------------ */
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(16.5rem, 1fr));
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.card-tile {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 1.05rem 1.15rem 1.2rem;
+    background-color: #fff;
+    border: 1px solid var(--nue-line);
+    border-top: 3px solid var(--nue-brand);
+    border-radius: 8px;
+    box-shadow: 0 1px 2px rgba(16, 36, 61, 0.05);
+    text-decoration: none;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.card-tile:hover,
+.card-tile:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(16, 36, 61, 0.13);
+}
+
+.card-tile__title {
+    color: var(--nue-deep);
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+.card-tile__title::after {
+    content: " →";
+    color: var(--nue-brand);
+}
+
+.card-tile__text {
+    margin-top: 0.5rem;
+    color: var(--nue-ink);
+    font-size: 0.88rem;
+    line-height: 1.75;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .card-tile { transition: none; }
+    .card-tile:hover { transform: none; }
+}
+
+/* ------------------------------------------------------------------
+   お問い合わせ・外部リンク
+   ------------------------------------------------------------------ */
+
+.home-section--foot {
+    margin-top: 3.5rem;
+}
+
+.home-contact {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7em;
+    padding: 1.3rem 1.5rem;
+    border-radius: 10px;
+    background-image: linear-gradient(135deg, #0059b3 0%, #10243d 100%);
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 700;
+    line-height: 1.5;
+    text-align: center;
+    text-decoration: none;
+    transition: filter 0.15s ease;
+}
+
+.home-contact:hover,
+.home-contact:focus-visible {
+    color: #fff;
+    filter: brightness(1.15);
+}
+
+.home-contact__arrow {
+    transition: transform 0.15s ease;
+}
+
+.home-contact:hover .home-contact__arrow {
+    transform: translateX(4px);
+}
+
+.home-links {
+    margin-top: 2.5rem;
+}
+
+.home-links__title {
+    margin: 0 0 0.9rem;
+    color: var(--nue-deep);
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
+.home-links__grid {
+    display: grid;
+    /* 6 項目なので，広い画面では 3 列 2 行にきれいに収まる幅にする */
+    grid-template-columns: repeat(auto-fill, minmax(17.5rem, 1fr));
+    gap: 0.6rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* 題名が 2 行になる項目があるため，同じ行の高さをそろえる */
+.home-links__grid li {
+    display: flex;
+}
+
+.home-links__grid a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6em;
+    /* li の中で幅いっぱいに伸ばす（既定の flex-grow:0 だと文字幅に縮む） */
+    flex: 1;
+    height: 100%;
+    padding: 0.8em 1em;
+    background-color: #fff;
+    border: 1px solid var(--nue-line);
+    border-radius: 6px;
+    color: var(--nue-brand);
+    font-size: 0.92rem;
+    line-height: 1.5;
+    text-decoration: none;
+}
+
+.home-links__grid a:hover,
+.home-links__grid a:focus-visible {
+    background-color: #eef4fb;
+    border-color: #b9d3ee;
+    color: var(--nue-deep);
+}
+
+.home-links__ext {
+    color: var(--nue-muted);
+    font-size: 0.8em;
+}
+
+/* ------------------------------------------------------------------
+   スマートフォン
+   ------------------------------------------------------------------ */
+
+@media screen and (max-width: 30em) {
+    .home-wrap {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+
+    .home-section,
+    .home-section--foot {
+        margin-top: 2.5rem;
+    }
+
+    .section-head__title {
+        font-size: 1.2rem;
+    }
+
+    /* 3 列だと題名が 1 行 8 字ほどになるため，日付と区分を上の行にまとめる */
+    .news-list__link {
+        grid-template-columns: auto 1fr;
+        gap: 0.35rem 0.7rem;
+        padding: 0.85rem 0.9rem;
+    }
+
+    .news-list__title {
+        grid-column: 1 / -1;
+    }
+
+    /* 幅の狭い画面では札を内容の幅に詰めて，題名の行を稼ぐ */
+    .hd-badge {
+        justify-self: start;
+    }
+
+    .home-notice {
+        padding: 1.15rem 1.1rem 1.25rem;
+    }
+
+    .home-notice__title {
+        font-size: 1.15rem;
+    }
+
+    .home-contact {
+        font-size: 1rem;
+        padding: 1.1rem 1rem;
+    }
+}
+
+/* ==================================================================
+   一覧ページ・記事ページの器
+
+   これまで本文の行長は .page-body > * の max-width: 45rem で抑えていたが，
+   器（mw8＝64rem）はそのままだったため，右カラムを持たないページでは
+   右にだけ 272px の余りが出て，記事全体が左に寄って見えていた．
+   ================================================================== */
+
+/* 左パネルも目次も持たないページ（お知らせの記事など）の器．
+   本文 45rem ＋ ph3 の左右 1rem．center（margin: auto）で中央に置く． */
+.article-measure {
+    max-width: 47rem;
+}
+
+/* 一覧ページの導入文．カードと左端をそろえ，行長だけ抑える． */
+.section-lead {
+    max-width: 45rem;
+    margin-bottom: 1.75rem;
+    color: var(--nue-ink);
+    font-size: 1.0625rem;
+    line-height: 1.85;
+}
+
+.section-lead > :first-child {
+    margin-top: 0;
+}
+
+.section-lead > :last-child {
+    margin-bottom: 0;
+}
+
+/* 一覧ページのカード列．li はグリッド項目なので，中のカードを高さいっぱいに伸ばす */
+.card-grid > li {
+    display: flex;
+}
+
+.card-grid > li > .card-tile {
+    flex: 1;
+}
+
+/* 最新情報のトップ．区分ごとの抜粋の間隔 */
+.news-section + .news-section {
+    margin-top: 2.75rem;
 }

@@ -16,7 +16,9 @@ enableRobotsTXT = true
 id = ''
 
 [pagination]
-pagerSize = 10 # this is set low for demonstrating with dummy content. Set to a higher number
+# セクション一覧（_default/list.html）でのみ使う．10 のままだと
+# 各種サービス（11 ページ）が 2 ページ目に 1 枚だけこぼれていた．
+pagerSize = 24
 
 [sitemap]
     changefreq = "monthly"

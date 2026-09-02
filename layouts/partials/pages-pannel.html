@@ -6,7 +6,14 @@
   <p class="f5 b mv0">{{ .Title }}</p>
   <nav><ul class="mv0">
     {{ range .RegularPages }}
-      <li><a href="{{ .RelPermalink }}" {{if eq $currentID .File.UniqueID}}aria-current="page"{{end}}>{{ .Title }}</a></li>
+      {{ $isCurrent := eq $currentID .File.UniqueID }}
+      <li>
+        <a href="{{ .RelPermalink }}" {{ if $isCurrent }}aria-current="page"{{ end }}>{{ .Title }}</a>
+        {{/* 表示中のページだけ，その中の見出しを続けて出す．
+             以前は独立した右カラムに置いていたが，左右に分かれていると
+             幅を取るうえに視線も分散するため，こちらへまとめた． */}}
+        {{ if and $isCurrent $.Params.toc }}{{ $.TableOfContents }}{{ end }}
+      </li>
     {{ end }}
   </ul></nav>
   </div>

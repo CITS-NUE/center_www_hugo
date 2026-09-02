@@ -5,7 +5,10 @@
 
 {{ define "main" }}
   {{ $section := .Site.GetPage "section" .Section }}
-  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+  {{/* 左パネルも目次も持たないページなので，器の幅を本文の幅にそろえる．
+       mw8（64rem）のままだと，本文が .page-body > * の 45rem で頭打ちになる分だけ
+       右に余白が残り，記事全体が左に寄って見えていた． */}}
+  <article class="article-measure center ph3">
     <header class="mt4 w-100">
       <aside class="instapaper_ignoref b helvetica tracked">
           {{/*
@@ -47,7 +50,7 @@
         <span class="f6 mv4 dib tracked"> - {{ i18n "wordCount" .WordCount }} </span>
       {{ end }}
     </header>
-    <div class="nested-copy-line-height lh-copy {{ $.Param "post_content_classes"  | default "serif"}} f4 nested-links {{ $.Param "text_color" | default "mid-gray" }} {{ cond (eq $.Site.Language.LanguageDirection "rtl") "pl4-l" "pr4-l" }} w-100-l">
+    <div class="page-body nested-copy-line-height lh-copy {{ $.Param "post_content_classes"  | default "serif"}} f4 nested-links {{ $.Param "text_color" | default "mid-gray" }} w-100-l">
       {{- .Content -}}
       {{- partial "tags.html" . -}}
       <div class="mt6 instapaper_ignoref">

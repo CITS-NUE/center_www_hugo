@@ -4,10 +4,30 @@
       {{ with .Site.Params.site_logo }}
         <img src="{{ relURL . }}" class="w100 mw5-ns" alt="{{ $.Site.Title }}" />
       {{ else }}
-        {{ .Site.Title }}
+        {{/* 「鳴門教育大学 情報基盤センター」を組織名とセンター名に分け，
+             組織名を小さく表示して従属させる．
+             空白で 2 つに分かれない設定のときはそのまま表示する． */}}
+        {{ $parts := split .Site.Title " " }}
+        {{ if eq (len $parts) 2 }}
+          <span class="site-title-org">{{ index $parts 0 }}</span><span>{{ index $parts 1 }}</span>
+        {{ else }}
+          {{ .Site.Title }}
+        {{ end }}
       {{ end }}
     </a>
-    <div class="flex-l items-center">
+    {{/* 画面幅が狭いときだけ表示する開閉ボタン．
+         JavaScript が動かない環境ではメニューは開いたままになる（従来どおり）ため，
+         ボタンも既定では隠しておき，スクリプトが有効にする． */}}
+    <button type="button" class="nav-toggle" id="nav-toggle"
+            aria-controls="site-menu" aria-expanded="true" hidden>
+      <span class="nav-toggle-box" aria-hidden="true">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </span>
+      <span class="nav-toggle-label">{{ i18n "menu" }}</span>
+    </button>
+    <div class="flex-l items-center nav-menu" id="site-menu">
       {{ partial "i18nlist.html" . }}
       {{ if .Site.Menus.main.ByWeight }}
         <ul class="{{ cond (eq $.Site.Language.LanguageDirection "rtl") "pr0 ml3" "pl0 mr3" }}">
@@ -24,3 +44,52 @@
     </div>
   </div>
 </nav>
+<script>
+(function () {
+  var toggle = document.getElementById('nav-toggle');
+  var menu = document.getElementById('site-menu');
+  if (!toggle || !menu) { return; }
+
+  // ボタンが CSS で表示される幅（狭い画面）かどうか
+  function isCollapsible() {
+    return getComputedStyle(toggle).display !== 'none';
+  }
+
+  function setOpen(open) {
+    toggle.setAttribute('aria-expanded', String(open));
+    menu.classList.toggle('nav-menu--open', open);
+  }
+
+  // 画面幅に応じて初期状態を決める．広い画面では常に開いた状態にする．
+  function sync() {
+    if (isCollapsible()) {
+      if (!menu.classList.contains('nav-menu--open')) { setOpen(false); }
+    } else {
+      setOpen(true);
+    }
+  }
+
+  toggle.hidden = false;   // スクリプトが動く環境でだけボタンを出す
+  menu.classList.add('nav-menu--collapsible');
+  sync();
+
+  toggle.addEventListener('click', function () {
+    setOpen(toggle.getAttribute('aria-expanded') !== 'true');
+  });
+
+  // メニュー内のリンクを選んだら閉じる
+  menu.addEventListener('click', function (e) {
+    if (isCollapsible() && e.target.closest('a')) { setOpen(false); }
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && isCollapsible() &&
+        toggle.getAttribute('aria-expanded') === 'true') {
+      setOpen(false);
+      toggle.focus();
+    }
+  });
+
+  window.addEventListener('resize', sync);
+})();
+</script>
