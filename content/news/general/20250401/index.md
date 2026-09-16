@@ -2,6 +2,7 @@
 title: 令和 7 年度新入生向け利用手順
 date: 2025-04-01
 heading: important
+draft: true
 ---
 
 {{< pdfembed src="./R7_04_情報基盤センターから新入生へのお知らせ 2.pdf#view=fit" width="450" height="700" >}}
