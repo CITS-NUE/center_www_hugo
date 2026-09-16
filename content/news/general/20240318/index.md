@@ -2,6 +2,7 @@
 title: 令和 6 年度新入生向け利用マニュアル
 date: 2024-03-18
 heading: important
+draft: true
 ---
 
 {{< pdfembed src="./R6_04_情報基盤センターから新入生へのお知らせ.pdf#view=fit" width="450" height="700" >}}
