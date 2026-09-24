@@ -45,6 +45,17 @@ summary: 申請により利用できるサービスの一覧です。
 
 [オンライン申請](https://forms.office.com/r/L9j7sLVxXw)
 
+
+### ゲスト用 WiFi
+学会や研究会の際，学外者が利用可能な WiFi を提供できます。
+
+[オンライン申請](https://forms.office.com/r/VPk9yiYniX)
+
+### 802.1x 非対応デバイス向け WiFi Fuchsia
+INDIGOの認証方式に対応しない機器を，INDIGOと同じネットワークに接続できます。
+[オンライン申請](https://forms.cloud.microsoft/r/qiTyTWLMxF)
+
+
 ### ネットワーク接続
 共有プリンタや NAS に固定IPアドレスを配布できます。
 
